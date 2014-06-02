@@ -1,0 +1,26 @@
+{
+  "name": "node-heartbeats",
+  "version": "0.0.0",
+  "description": "A simple javascript library to very efficiently keep track of time differences.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/arjunmehta/node-heartbeats.git"
+  },
+  "keywords": [
+    "heartbeat",
+    "heartbeats",
+    "timing",
+    "time",
+    "relativity"
+  ],
+  "author": "Arjun Mehta",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/arjunmehta/node-heartbeats/issues"
+  },
+  "homepage": "https://github.com/arjunmehta/node-heartbeats"
+}
