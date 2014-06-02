@@ -114,7 +114,9 @@ var delay = pulse.lag();
 ```
 
 
-## The MIT License (MIT)
+## Licence
+
+The MIT License (MIT)
 
 Copyright (c) 2014 Arjun Mehta
 
