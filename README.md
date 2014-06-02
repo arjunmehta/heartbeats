@@ -26,14 +26,16 @@ var heart = new heartbeats.Heart(3000);
 The most common use case for heartbeats are to register whether an event has happened within a certain time period, and if its time exceeds a certain threshold, do something to an object associated with it.
 
 ```javascript
-var veinA = {pulse: heart.Pulse()};
-var veinB = {pulse: heart.Pulse()};
 
-veinA.pulse.beat();
-veinB.pulse.beat();
+var veins = {};
+veins.a = {pulse: heart.Pulse()};
+veins.b = {pulse: heart.Pulse()};
 
-if(heart.difference(veinA.pulse) > 3000){
-  delete veinA;
+veins.a.pulse.beat();
+veins.b.pulse.beat();
+
+if(heart.difference(veins.a.pulse) > 3000){
+  delete veins.a;
 }
 
 ```
