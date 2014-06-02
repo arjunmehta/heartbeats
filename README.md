@@ -37,7 +37,7 @@ setInterval(function(){
 
 ## About Efficiency
 
-Why is this library faster than more conventional methods? Basically, instead of using `Date.now()` or new `Date().getTime()` which are relatively very slow operations that give you very discrete, universal values for the **present time**, you use the present moment of a heartbeat to give your events a time relative to that heartbeat. This simple change results in extremely fast and efficient time difference calculations because it operates at a very low resolution compared to methods using the Date object. View the source to see details.
+Why is this library faster than more conventional methods? Basically, instead of using `Date.now()` or` new Date().getTime()` which are relatively very slow operations that give you very discrete, universal values for the **present time**, you use the present moment of a heartbeat to give your events a time relative to that heartbeat. This simple change results in extremely fast and efficient time difference calculations because it operates at a very low resolution compared to methods using the Date object. View the source to see details.
 
 ## API
 
