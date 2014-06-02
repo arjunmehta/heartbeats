@@ -16,8 +16,8 @@ npm install heartbeats
 
 ```javascript
 var heartbeats = require('heartbeats');
-var heart = new heartbeats.Heart(1000);
 
+var heart = new heartbeats.Heart(1000);
 var pulseA = heart.newPulse();
 var pulseB = heart.newPulse();
 
