@@ -1,12 +1,15 @@
 # node-heartbeats
 
-A simple node.js library to very efficiently track whether things are keeping up at a certain pace.
+[![Build Status](https://travis-ci.org/arjunmehta/node-heartbeats.svg?branch=master)](https://travis-ci.org/arjunmehta/node-heartbeats)
+
+A simple node.js module to very efficiently track whether things are keeping up at a certain pace.
 
 This library uses a much more efficient (yet less precise) method of testing system level event times as relativistic time differentials vs. universal time differentials. Think larger chunked time measures (a heart rate) instead of actual milliseconds.
 
 Basically, you use this library to compare multiple "Pulse" objects to a single consistent "Heartbeat", and see how many beats it has missed.
 
 This library is perfect if you have a large number of events that require heartbeats to be efficiently compared to certain thresholds without needing to be 100% precise.
+
 
 ## Usage
 
@@ -38,6 +41,7 @@ setInterval(function(){
 ## About Efficiency
 
 Why is this library faster than more conventional methods? Basically, instead of using `Date.now()` or` new Date().getTime()` which are relatively very slow operations that give you very discrete, universal values for the **present time**, you use the present moment of a heartbeat to give your events a time relative to that heartbeat. This simple change results in extremely fast and efficient time difference calculations because it operates at a very low resolution compared to methods using the Date object. View the source to see details.
+
 
 ## API
 
@@ -105,6 +109,7 @@ Returns an approximate number of milliseconds the pulse is lagging behind the ma
 // gets an approximate number of milliseconds the pulse is delayed from the heart
 var delay = pulse.lag();
 ```
+
 
 ## License
 node-heartbeats is open-source and licensed under the MIT license.

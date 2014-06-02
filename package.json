@@ -1,7 +1,7 @@
 {
   "name": "node-heartbeats",
   "version": "0.1.0",
-  "description": "A simple javascript library to very efficiently keep track of time differences.",
+  "description": "A simple node.js module to very efficiently track whether things are keeping up at a certain pace.",
   "main": "main.js",
   "scripts": {
     "test": "nodeunit test/test.js"
