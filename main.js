@@ -1,8 +1,9 @@
 
 var heartbeats = {};
+var idCount = 0;
 
-function create(name, interval){
-  heartbeats[name] = new HeartBeat(name, interval);
+function create(interval, name){
+  heartbeats[name] = new Heart(interval, name);
   return heartbeats[name];
 }
 
@@ -11,30 +12,27 @@ function heartbeat(name){
 }
 
 
+// the main Heart constructor
 
-function HeartBeat(name, interval, realTime){
+function Heart(interval, name){
 
   var present = this.present = 0;
 
-  this.name = name;
+  this.id = name || "beat_"+idCount;
   this.interval = interval; 
 
   this.interval = setInterval(function(){
     present++;
   }, interval);
 
-  if(realTime){
-    this.timebridge = Date.now();
-    this.realmoment = 0;
-  }
-
+  idCount++;
 }
 
-HeartBeat.prototype.stop = function(){
+Heart.prototype.stop = function(){
   clearInterval(this.interval);
 };
 
-HeartBeat.prototype.start = function(){
+Heart.prototype.start = function(){
   
   var present = this.present;
 
@@ -43,46 +41,74 @@ HeartBeat.prototype.start = function(){
   }, interval);
 };
 
-HeartBeat.prototype.reset = function(){
+Heart.prototype.reset = function(){
   this.present = 0;
 };
 
-HeartBeat.prototype.destroy = function(){
+Heart.prototype.destroy = function(){
 
   clearInterval(this.interval);
 
-  if(heartbeats[this.name]){
-    heartbeats[this.name] = undefined;
+  if(heartbeats[this.id]){
+    // heartbeats[this.id] = undefined;
+    delete heartbeats[this.id];
   }
 };
 
-HeartBeat.prototype.time = function(){
-  return this.timebridge + ((this.present-this.realmoment)*this.interval);
-};
-
-HeartBeat.prototype.syncRealTime = function(){
-  this.timebridge = Date.now();
-  this.realmoment = this.present;
-
-  return this.timebridge;
-};
-
-HeartBeat.prototype.over = function(value, threshold){
-  if(this.present - value < (threshold/this.interval)){
+Heart.prototype.over = function(pulse, threshold){
+  if(this.present - pulse.pulse > (threshold/this.interval)){
     return true;
   }
   return false;
 };
 
-HeartBeat.prototype.compareTime = function(time, threshold){
+Heart.prototype.compare = function(pulse){
+  return (this.present - pulse.pulse) * this.interval;
+};
 
+Heart.prototype.difference = Heart.prototype.compare;
+
+Heart.prototype.Pulse = function(){
+  return new Pulse(this);
 };
 
 
+function Pulse(homeheart){  
+  this.heart = homeheart; 
+  this.pulse = homeheart.present;
+}
+
+Pulse.prototype.beat = function(){
+  this.pulse = this.heart.present;
+};
+
+
+
+
+// Heart.prototype.time = function(){
+//   return this.timebridge + ((this.present-this.realmoment)*this.interval);
+// };
+
+// Heart.prototype.syncRealTime = function(){
+//   this.timebridge = Date.now();
+//   this.realmoment = this.present;
+//
+//   return this.timebridge;
+// };
+
+// Heart.prototype.overTime = function(time, threshold){
+//   if(this.time() - time > threshold){
+//     return true;
+//   }
+//   return false;
+// };
+
+
 module.exports = exports = {
-  heartbeats: heartbeats,
+  all: heartbeats,
   create: create,
+  createHeart: create,
   heartbeat: heartbeat,
-  pulse: heartbeat,
-  HeartBeat: HeartBeat
+  heart: heartbeat,
+  Heart: Heart
 };
