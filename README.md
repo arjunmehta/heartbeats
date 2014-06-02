@@ -114,7 +114,7 @@ var delay = pulse.lag();
 ```
 
 
-## Licence
+## License
 
 The MIT License (MIT)
 
