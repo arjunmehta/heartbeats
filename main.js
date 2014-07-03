@@ -16,7 +16,7 @@ function destroy(name){
 
   if(heartbeats[name]){
     clearInterval(heartbeats[name].interval);
-    delete heartbeats[name];
+    heartbeats[name] = undefined;
   }
 }
 

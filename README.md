@@ -45,17 +45,15 @@ setInterval(function(){
 
 ### Do Something Every X HeartBeats
 ```javascript
-// Do something ever 5 heartbeats
-heart.onBeat(5, function(heartbeat){
-  console.log("Every 5 Beats", heartbeat);
+heart.onBeat(5, function(){
+  console.log("...Every 5 Beats");
 });
-heart.onBeat(2, function(heartbeat){
-  console.log("Every Two Beats", heartbeat);
+heart.onBeat(2, function(){
+  console.log("...Every Two Beats");
 });
-heart.onBeat(1, function(heartbeat){
-  console.log("Every Single Beat", heartbeat);
+heart.onBeat(1, function(){
+  console.log("...Every Single Beat");
 });
-
 ```
 
 
@@ -135,6 +133,29 @@ Returns an approximate number of milliseconds the pulse is lagging behind the ma
 ```javascript
 // gets an approximate number of milliseconds the pulse is delayed from the heart
 var delay = pulse.lag();
+```
+
+
+### Beat Events
+
+#### heart.onBeat(beatInterval, function)
+
+HeartBeats makes it easy for you to synchronize event execution without the need for multiple `setInterval` initializers. It ensures that actions are synchronized with respect to the heart's beat and uses the heartbeat as the measure for action, and won't get unsynchronized as is what happens when multiple `setInterval`s are used.
+
+This method counts from the time you add the `onBeat` event
+
+```javascript
+heartbeats.heart("global").onBeat(5, function(){
+  console.log("does this every 5 beats");
+});
+```
+
+#### heart.clearEvents()
+
+This will clear all beat events from the heart.
+
+```javascript
+heartbeats.heart("global").clearEvents();
 ```
 
 
