@@ -44,6 +44,36 @@ exports.createHeart = function(test){
   }, 500);
 };
 
+
+exports.addEvent = function(test){
+
+  test.expect(3);
+
+  var presentInit = heartbeats.heart("globalBeat").present;
+
+  heartbeats.heart("globalBeat").onBeat(3, function(present){
+    console.log("onBeat 3", present-presentInit);
+    test.equal(true, true);    
+  });
+
+
+  heartbeats.heart("globalBeat").onBeat(7, function(present){
+    console.log("onBeat 7", present-presentInit);
+    test.equal(true, true);    
+    test.done();
+  });  
+};
+
+exports.removeEvents = function(test){
+
+  test.expect(1);
+
+  heartbeats.heart("globalBeat").clearEvents();
+
+  test.equal(heartbeats.heart("globalBeat").events.length, 0);    
+  test.done();
+};
+
 exports.removeHeart = function(test){
 
   test.expect(1);
@@ -52,7 +82,6 @@ exports.removeHeart = function(test){
   test.equal((heartbeats.heart("globalBeat") === undefined), true);
   test.done();
 };
-
 
 exports.tearDown = function(done){
   done();

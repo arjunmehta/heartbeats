@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/arjunmehta/node-heartbeats.svg?branch=master)](https://travis-ci.org/arjunmehta/node-heartbeats)
 
-A simple node.js module to very efficiently track whether things are keeping up at a certain pace.
+A simple node.js module to very efficiently track whether things are keeping up at a certain pace and execute methods on specific beats.
 
 This library uses a much more efficient (yet less precise) method of testing system level event times as relativistic time differentials vs. universal time differentials. Think larger chunked time measures (a heart rate) instead of actual milliseconds.
 
@@ -11,30 +11,43 @@ Basically, you use this library to compare multiple "Pulse" objects to a single 
 This library is perfect if you have a large number of events that require heartbeats to be efficiently compared to certain thresholds without needing to be 100% precise.
 
 
-## Basic Usage
+## Basic Usage Example
 
+### Install
 ```bash
 npm install heartbeats
 ```
 
+### Create a New Heart
 ```javascript
 var heartbeats = require('heartbeats');
-
 var heart = new heartbeats.Heart(1000);
+```
+
+### Create Pulse Instances
+```javascript
 var pulseA = heart.newPulse();
 var pulseB = heart.newPulse();
+```
 
+### Do Stuff with Pulses
+```javascript
 console.log( pulseA.missedBeats() ); // 0
 console.log( pulseB.missedBeats() ); // 0
 
 setInterval(function(){
-
   pulseB.beat();
-
   console.log( pulseA.missedBeats() ); // 2, 4, 6, 8
   console.log( pulseB.missedBeats() ); // 0
-
 }, 2000);
+```
+
+### Do Something Every X HeartBeats
+```javascript
+// Do something ever 5 heartbeats
+heart.onBeat(5, function(heartbeat){
+  console.log("beat", heartbeat);
+});
 ```
 
 
