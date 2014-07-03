@@ -2,13 +2,14 @@
 
 [![Build Status](https://travis-ci.org/arjunmehta/node-heartbeats.svg?branch=master)](https://travis-ci.org/arjunmehta/node-heartbeats)
 
-A simple node.js module to very efficiently track whether things are keeping up at a certain pace and execute methods on specific beats.
+A simple node.js module to very efficiently manage time-based events and objects.
 
-This library uses a much more efficient (yet less precise) method of testing system level event times as relativistic time differentials vs. universal time differentials. Think larger chunked time measures (a heart rate) instead of actual milliseconds.
+This library uses a much more efficient (yet less precise) method of testing system level event times as relativistic time differentials vs. universal time differentials. Think larger chunked time measures (a heart rate) instead of actual milliseconds. It's also great at managing the execution of events that require precise synchronization. In effect:
 
-Basically, you use this library to compare multiple "Pulse" objects to a single consistent "Heartbeat", and see how many beats it has missed.
+- Compare multiple "Pulse" objects to a single consistent "Heartbeat", and see how many beats it has missed.
+- Execute functions on specific Heartbeat intervals. Add as many events as you'd like.
 
-This library is perfect if you have a large number of events that require heartbeats to be efficiently compared to certain thresholds without needing to be 100% precise.
+This library is perfect if you have to compare large numbers of relativistic timelapses efficiently (hence, heartbeats).
 
 
 ## Basic Usage Example
@@ -46,8 +47,15 @@ setInterval(function(){
 ```javascript
 // Do something ever 5 heartbeats
 heart.onBeat(5, function(heartbeat){
-  console.log("beat", heartbeat);
+  console.log("Every 5 Beats", heartbeat);
 });
+heart.onBeat(2, function(heartbeat){
+  console.log("Every Two Beats", heartbeat);
+});
+heart.onBeat(1, function(heartbeat){
+  console.log("Every Single Beat", heartbeat);
+});
+
 ```
 
 
