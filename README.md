@@ -2,39 +2,58 @@
 
 [![Build Status](https://travis-ci.org/arjunmehta/node-heartbeats.svg?branch=master)](https://travis-ci.org/arjunmehta/node-heartbeats)
 
-A simple node.js module to very efficiently track whether things are keeping up at a certain pace.
+A simple node.js module to very efficiently manage time-based events and objects.
 
-This library uses a much more efficient (yet less precise) method of testing system level event times as relativistic time differentials vs. universal time differentials. Think larger chunked time measures (a heart rate) instead of actual milliseconds.
+This library uses a much more efficient (yet less precise) method of testing system level event times as relativistic time differentials vs. universal time differentials. Think larger chunked time measures (a heart rate) instead of actual milliseconds. It's also great at managing the execution of events that require precise synchronization. In effect:
 
-Basically, you use this library to compare multiple "Pulse" objects to a single consistent "Heartbeat", and see how many beats it has missed.
+- Compare multiple "Pulse" objects to a single consistent "Heartbeat", and see how many beats it has missed.
+- Execute functions on specific Heartbeat intervals. Add as many events as you'd like.
 
-This library is perfect if you have a large number of events that require heartbeats to be efficiently compared to certain thresholds without needing to be 100% precise.
+This library is perfect if you have to compare large numbers of relativistic timelapses efficiently (hence, heartbeats).
 
 
-## Basic Usage
+## Basic Usage Example
 
+### Install
 ```bash
 npm install heartbeats
 ```
 
+### Create a New Heart
 ```javascript
 var heartbeats = require('heartbeats');
-
 var heart = new heartbeats.Heart(1000);
+```
+
+### Create Pulse Instances
+```javascript
 var pulseA = heart.newPulse();
 var pulseB = heart.newPulse();
+```
 
+### Do Stuff with Pulses
+```javascript
 console.log( pulseA.missedBeats() ); // 0
 console.log( pulseB.missedBeats() ); // 0
 
 setInterval(function(){
-
   pulseB.beat();
-
   console.log( pulseA.missedBeats() ); // 2, 4, 6, 8
   console.log( pulseB.missedBeats() ); // 0
-
 }, 2000);
+```
+
+### Do Something Every X HeartBeats
+```javascript
+heart.onBeat(5, function(){
+  console.log("...Every 5 Beats");
+});
+heart.onBeat(2, function(){
+  console.log("...Every Two Beats");
+});
+heart.onBeat(1, function(){
+  console.log("...Every Single Beat");
+});
 ```
 
 
@@ -114,6 +133,29 @@ Returns an approximate number of milliseconds the pulse is lagging behind the ma
 ```javascript
 // gets an approximate number of milliseconds the pulse is delayed from the heart
 var delay = pulse.lag();
+```
+
+
+### Beat Events
+
+#### heart.onBeat(beatInterval, function)
+
+HeartBeats makes it easy for you to synchronize event execution without the need for multiple `setInterval` initializers. It ensures that actions are synchronized with respect to the heart's beat and uses the heartbeat as the measure for action, and won't get unsynchronized as is what happens when multiple `setInterval`s are used.
+
+This method counts from the time you add the `onBeat` event
+
+```javascript
+heartbeats.heart("global").onBeat(5, function(){
+  console.log("does this every 5 beats");
+});
+```
+
+#### heart.clearEvents()
+
+This will clear all beat events from the heart.
+
+```javascript
+heartbeats.heart("global").clearEvents();
 ```
 
 

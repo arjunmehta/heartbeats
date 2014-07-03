@@ -1,7 +1,7 @@
 {
   "name": "heartbeats",
-  "version": "0.2.0",
-  "description": "A simple node.js module to very efficiently track whether things are keeping up at a certain pace.",
+  "version": "0.9.0",
+  "description": "A simple node.js module to very efficiently manage timed events. A great alternative to using multiple setIntervals.",
   "main": "main.js",
   "scripts": {
     "test": "nodeunit test/test.js"
