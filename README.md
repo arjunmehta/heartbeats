@@ -40,20 +40,20 @@ setInterval(function(){
 
 ## About Efficiency
 
-Why is this library faster than more conventional methods? Basically, instead of using `Date.now()` or` new Date().getTime()` which are relatively very slow operations that give you very discrete, universal values for the **present time**, you use the present moment of a heartbeat to give your events a time relative to that heartbeat. This simple change results in extremely fast and efficient time difference calculations because it operates at a very low resolution compared to methods using the Date object. View the source to see details.
+Why is this library faster than more conventional methods? Basically, instead of using `Date.now()` or `new Date().getTime()` which are relatively very slow operations that give you very precise, universal values for the **present time**, you use the present moment of a heartbeat to give your events a time relative to that heartbeat. This simple change results in extremely fast and efficient time difference calculations because it operates at a very low resolution compared to methods using the Date object, and compares basic integers vs comparing dates. View the source to see details.
 
 
 ## API
 
-The API is fairly straightforward, though it's good to be aware of a few things, particularly around precision issues that might arise for you.
+The API is fairly straightforward, though it's good to be aware of nuances in its use.
 
 ### The Heart
-To create a new heartbeat you, obviously, need to create a new heart. A heart has a core pulse, and beats at a specified interval. Hearts can also spawn new "Pulses" which are used to catch a "beat" from the Heart.
+To create a new heartbeat you, obviously, need to create a new heart. A heart has a core heartrate, and beats at a specified interval. Hearts can also spawn new "Pulses" which are used to catch a "beat" from the Heart.
 
 #### Constructor: new heartbeats.Heart(heartrate)
 Creates a new "Heart" that beats at a certain heartrate in milliseconds.
 ```javascript
-// a new heart that beats every 2 seconds
+// a new heart that beats approximately every 2 seconds
 var heart = new heartbeats.Heart(2000);
 ```
 
@@ -77,6 +77,9 @@ Removes the Heart from the internal managed list and clears the heartbeat interv
 // destroys the "global" heart(beat)
 heartbeats.destroyHeart("global");
 ```
+
+#### heart.setHeartrate(heartrate)
+Updates the heartrate period of the heart and returns the value. If no argument is passed it will return the current heartrate.
 
 #### heart.destroy()
 Clears the heartbeat interval and removes the Heart from the internal managed list if it exists.

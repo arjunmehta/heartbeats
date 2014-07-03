@@ -1,6 +1,6 @@
 {
   "name": "heartbeats",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A simple node.js module to very efficiently track whether things are keeping up at a certain pace.",
   "main": "main.js",
   "scripts": {
@@ -17,8 +17,10 @@
   "keywords": [
     "heartbeat",
     "heartbeats",
+    "interval",
+    "pulse",
     "timing",
-    "time",
+    "timer",
     "relativity"
   ],
   "author": "Arjun Mehta",
