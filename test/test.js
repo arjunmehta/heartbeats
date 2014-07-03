@@ -49,16 +49,16 @@ exports.addEvent = function(test){
 
   test.expect(3);
 
-  var presentInit = heartbeats.heart("globalBeat").present;
+  var presentInit = heartbeats.heart("globalBeat").heartbeat;
 
-  heartbeats.heart("globalBeat").onBeat(3, function(present){
-    console.log("onBeat 3", present-presentInit);
+  heartbeats.heart("globalBeat").onBeat(3, function(heartbeat){
+    console.log("onBeat 3", heartbeat-presentInit);
     test.equal(true, true);    
   });
 
 
-  heartbeats.heart("globalBeat").onBeat(7, function(present){
-    console.log("onBeat 7", present-presentInit);
+  heartbeats.heart("globalBeat").onBeat(7, function(heartbeat){
+    console.log("onBeat 7", heartbeat-presentInit);
     test.equal(true, true);    
     test.done();
   });  
