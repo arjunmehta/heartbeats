@@ -8,7 +8,7 @@ exports.newHeart = function(test){
   test.done();
 };
 
-exports.createHeart = function(test){
+exports.testPulses = function(test){
 
   var heart = heartbeats.heart("globalBeat");
 
@@ -63,6 +63,48 @@ exports.addEvent = function(test){
     test.done();
   });  
 };
+
+
+exports.removeEvents = function(test){
+
+  test.expect(1);
+
+  heartbeats.heart("globalBeat").clearEvents();
+
+  test.equal(heartbeats.heart("globalBeat").events.length, 0);    
+  test.done();
+};
+
+
+
+exports.addSingleEvent = function(test){
+
+  test.expect(4);
+
+  var presentInit = heartbeats.heart("globalBeat").heartbeat;
+
+  heartbeats.heart("globalBeat").onceOnBeat(1, function(heartbeat){
+    console.log("onceOnBeat 1", heartbeat-presentInit);
+    test.equal(true, true);
+  });
+
+  heartbeats.heart("globalBeat").onceOnBeat(2, function(heartbeat){
+    console.log("onceOnBeat 2", heartbeat-presentInit);
+    test.equal(true, true);
+  });
+
+  heartbeats.heart("globalBeat").onceOnBeat(2, function(heartbeat){
+    console.log("onceOnBeat 2", heartbeat-presentInit);
+    test.equal(true, true);
+  });
+
+  heartbeats.heart("globalBeat").onceOnBeat(3, function(heartbeat){
+    console.log("onceOnBeat 3", heartbeat-presentInit);
+    test.equal(true, true);    
+    test.done();
+  });  
+};
+
 
 exports.removeEvents = function(test){
 

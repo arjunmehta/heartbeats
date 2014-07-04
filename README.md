@@ -138,15 +138,23 @@ var delay = pulse.lag();
 
 ### Beat Events
 
+HeartBeats makes it easy for you to synchronize event execution without the need for multiple `setInterval` or `setTimeout` initializers. It ensures that actions are synchronized with respect to the heart's beat and uses the heartbeat as the measure for action, and won't get unsynchronized as is what happens when multiple `setInterval` or `setTimeout` methods are used.
+
 #### heart.onBeat(beatInterval, function)
-
-HeartBeats makes it easy for you to synchronize event execution without the need for multiple `setInterval` initializers. It ensures that actions are synchronized with respect to the heart's beat and uses the heartbeat as the measure for action, and won't get unsynchronized as is what happens when multiple `setInterval`s are used.
-
-This method counts from the time you add the `onBeat` event
+This method will add a reoccuring event to the heart. Every `nth` beat specified by `beatInterval` will execute the supplied function. This method counts from the time you add the `onBeat` event.
 
 ```javascript
 heartbeats.heart("global").onBeat(5, function(){
   console.log("does this every 5 beats");
+});
+```
+
+#### heart.onceOnBeat(beatInterval, function)
+This method will add a single event to the heart. After `beatInterval` the supplied function will execute. This method counts from the time you add the `onceOnBeat` event.
+
+```javascript
+heartbeats.heart("global").onceOnBeat(2, function(){
+  console.log("does once after 2 beats");
 });
 ```
 
