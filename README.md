@@ -3,17 +3,16 @@
 [![Build Status](https://travis-ci.org/arjunmehta/node-heartbeats.svg?branch=master)](https://travis-ci.org/arjunmehta/node-heartbeats)
 
 
-![heartbeats title image](https://raw.githubusercontent.com/arjunmehta/node-heartbeats/image/title.svg)
+![heartbeats title image](https://raw.githubusercontent.com/arjunmehta/node-heartbeats/image/heartbeats.png)
 
 A simple node.js module to very efficiently manage time-based events and objects.
 
-This library uses a much more efficient (yet less precise) method of testing system level event times as relativistic time differentials vs. universal time differentials. Think larger chunked time measures (a heart rate) instead of actual milliseconds. It's also great at managing the execution of events that require precise synchronization. In effect:
+Use this library for comparing large numbers of _relativistic_ time lapses efficiently and for synchronizing the execution of events based on these time lapses. In effect:
 
-- Compare multiple "Pulse" objects to a single consistent "Heartbeat", and see how many beats it has missed.
-- Execute functions on specific Heartbeat intervals. Add as many events as you'd like.
+- **Compare the time properties of multiple "Pulse" objects to a single consistent "Heartbeat" (eg. missed beats, lag, age etc.)**
+- **Execute functions on specific Heartbeat intervals (eg. do Y every X beats, do Y in X beats)**
 
-This library is perfect if you have to compare large numbers of relativistic timelapses efficiently (hence, heartbeats).
-
+This library uses a much more efficient (yet lower resolution) method of testing system level event times as relativistic time differentials (vs. universal time differentials). Think larger chunked time measures (interval counts) instead of actual milliseconds. It's also great at managing the execution of events that require precise in-system synchronization. 
 
 ## Basic Usage Example
 
