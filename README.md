@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/arjunmehta/node-heartbeats.svg?branch=master)](https://travis-ci.org/arjunmehta/node-heartbeats)
 
 
-<div>![heartbeats title image](https://www.dropbox.com/s/x213duuwpcedkl5/heartbeatsalt.svg)</div>
+![heartbeats title image](https://www.dropbox.com/s/x213duuwpcedkl5/heartbeatsalt.svg)
 
 A simple node.js module to very efficiently manage time-based events and objects.
 
