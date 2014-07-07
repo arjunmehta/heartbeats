@@ -2,6 +2,9 @@
 
 [![Build Status](https://travis-ci.org/arjunmehta/node-heartbeats.svg?branch=master)](https://travis-ci.org/arjunmehta/node-heartbeats)
 
+
+![heartbeats title image](https://raw.githubusercontent.com/arjunmehta/node-heartbeats/image/title.svg)
+
 A simple node.js module to very efficiently manage time-based events and objects.
 
 This library uses a much more efficient (yet less precise) method of testing system level event times as relativistic time differentials vs. universal time differentials. Think larger chunked time measures (a heart rate) instead of actual milliseconds. It's also great at managing the execution of events that require precise synchronization. In effect:
