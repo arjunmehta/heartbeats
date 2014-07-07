@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.2" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-	 x="0px" y="0px" viewBox="0 0 1000 400" xml:space="preserve">
+   x="0px" y="0px" viewBox="0 0 1000 400" xml:space="preserve">
 <polygon fill="#29A9E1" points="712.6,286 664.1,201 712.6,116 809.4,116 857.9,201 809.4,286 "/>
 <g>
-	<circle fill="#22B473" cx="397" cy="200" r="161.4"/>
+  <circle fill="#22B473" cx="397" cy="200" r="161.4"/>
 </g>
 <polygon fill="#EC2079" points="218.5,348.6 129.3,193.6 40,38.6 218.5,38.6 397,38.6 307.8,193.6 "/>
 <g>
-	<circle fill="#22B473" cx="886" cy="266.5" r="25"/>
+  <circle fill="#22B473" cx="886" cy="266.5" r="25"/>
 </g>
 <g>
-	<circle fill="#22B473" cx="644" cy="133.5" r="25"/>
+  <circle fill="#22B473" cx="644" cy="133.5" r="25"/>
 </g>
 </svg>
