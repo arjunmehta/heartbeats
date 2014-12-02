@@ -12,7 +12,9 @@
   },   
   "devDependencies": {
     "assert": "~1.0",
-    "nodeunit": "~0.8.8"
+    "nodeunit": "~0.8.8",
+    "mocha": "*",
+    "chai": "*"
   },
   "keywords": [
     "heartbeat",
