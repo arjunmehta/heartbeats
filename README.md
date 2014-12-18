@@ -47,7 +47,7 @@ var pulseA = heart.createPulse();
 var pulseB = heart.createPulse();
 ```
 
-Instead of storing an event's time as `Date.now()` or `Date.getTime()` and comparing those values to some other time, you `pulse.beat()` to synchronize the Pulse's time with its Heart.
+Instead of storing an event's time as `Date().now()` or `Date().getTime()` and comparing those values to some other time, you `pulse.beat()` to synchronize the Pulse's time with its Heart.
 
 ```javascript
 pulseA.beat();
@@ -98,7 +98,7 @@ heart.kill();
 
 ## About Efficiency
 
-Why is this library faster than more conventional methods? Basically, instead of using `Date.now()` or `new Date().getTime()` which are relatively very slow operations that give you very precise, universal values for the **present time**, we use the present moment of a heartbeat to give your events a time relative to that particular heart. This simple change results in extremely fast and efficient time difference calculations because it operates at a very low resolution compared to methods using the Date object, and compares basic integers vs comparing dates. View the source to see details.
+Why is this library faster than more conventional methods? Basically, instead of using `Date().now()` or `new Date().getTime()` which are relatively very slow operations that give you very precise, universal values for the **present time**, we use the present moment of a heartbeat to give your events a time relative to that particular heart. This simple change results in extremely fast and efficient time difference calculations because it operates at a very low resolution compared to methods using the Date object, and compares basic integers vs comparing dates. View the source to see details.
 
 
 ## API
@@ -185,6 +185,8 @@ var pulse = heartbeats.heart("heartA").pulse("A");
 
 #### pulse.beat()
 This synchronizes the pulse with its Heart. **This is the secret sauce**. Instead of using `Date().now()` or `Date().getTime()` to register an event time we match the time of the pulse with the heart.
+
+Returns the `Pulse` object to chain if needed.
 
 ```javascript
 // synchronizes the pulse to its heart
