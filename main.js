@@ -2,6 +2,7 @@ var hearts = {};
 var Heart = require("./lib/heart.js").initialize(hearts);
 
 function createHeart(heartrate, name) {
+    killHeart(name);
     var heart = new Heart(heartrate, name);
     hearts[heart.id] = heart;
     return heart;
