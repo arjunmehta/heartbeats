@@ -71,13 +71,18 @@ setInterval(function(){
 ### Heart Events
 In addition to having Pulses, Hearts can also manage events, and execute blocks on specific heart beats, either continually (like `setInterval`) or just once (like `setTimeout`).
 
+This is much more efficient and much more reliable than using multiple `setInterval` methods, as they usually get unsynchronized, and introduce memory issues.
+
 ```javascript
+// Alternative to setInterval
 heart.onBeat(5, function(){
   console.log("...Every 5 Beats");
 });
 heart.onBeat(2, function(){
   console.log("...Every Two Beats");
 });
+
+// Alternative to setTimeout
 heart.onceOnBeat(1, function(){
   console.log("...Every Single Beat");
 });
@@ -86,7 +91,7 @@ heart.onceOnBeat(1, function(){
 
 ## About Efficiency
 
-Why is this library faster than more conventional methods? Basically, instead of using `Date.now()` or `new Date().getTime()` which are relatively very slow operations that give you very precise, universal values for the **present time**, you use the present moment of a heartbeat to give your events a time relative to that particular heart. This simple change results in extremely fast and efficient time difference calculations because it operates at a very low resolution compared to methods using the Date object, and compares basic integers vs comparing dates. View the source to see details.
+Why is this library faster than more conventional methods? Basically, instead of using `Date.now()` or `new Date().getTime()` which are relatively very slow operations that give you very precise, universal values for the **present time**, we use the present moment of a heartbeat to give your events a time relative to that particular heart. This simple change results in extremely fast and efficient time difference calculations because it operates at a very low resolution compared to methods using the Date object, and compares basic integers vs comparing dates. View the source to see details.
 
 
 ## API
@@ -95,19 +100,21 @@ The API is fairly straightforward, though it's good to be aware of nuances in it
 
 ### The Heart
 #### heartbeats.createHeart(heartrate, name);
-Adds a new `Heart` registered in the module's list of hearts (see **heartbeats.heart()**). You can have multiple Hearts kept in the module's managed list. This is useful if you want to access heartbeats from different modules.
+Creates and returns a new `Heart` object.
+
+If you provide a `name` the heart is registered in the module's list of hearts (see **heartbeats.heart()**). This is useful if you want to access heartbeats from different modules.
 
 ```javascript
 // a new heart that beats every 2 seconds named "heartA"
-heartbeats.createHeart(2000, "heartA");
-```
-
-Also returns the `Heart` object if you want to deal with it locally.
-
-```javascript
 var heart = heartbeats.createHeart(2000, "heartA");
 ```
 
+If you don't provide a name, the heart will be given a unique id as its name.
+
+```javascript
+var heart = heartbeats.createHeart(2000);
+console.log(heart.name); // heart_1
+```
 
 #### heartbeats.heart(name)
 Returns a `Heart` object from the managed list of hearts.
@@ -118,7 +125,8 @@ var heart = heartbeats.heart("heartA");
 ```
 
 #### heartbeats.killHeart(name)
-Removes the `Heart` from the internal managed list and clears the heartbeat interval.
+Removes the `Heart` from the internal managed list and clears the heartbeat interval. This only works if the heart was created with a `name`.
+
 ```javascript
 // destroys the "heartA" heart(beat)
 heartbeats.killHeart("heartA");
