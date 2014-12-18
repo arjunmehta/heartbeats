@@ -40,7 +40,7 @@ var age = heart.age;
 ```
 
 ### Creating and Using Pulse Instances
-A `Pulse` is time-based object used to represent a part of your system that you want to measure time events with. Pulses belong to a Heart.
+A `Pulse` is a time-based object used to represent a part of your system that you want to measure time events with. Pulses belong to a Heart.
 
 ```javascript
 var pulseA = heart.createPulse();
