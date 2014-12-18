@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/arjunmehta/node-heartbeats.svg?branch=master)](https://travis-ci.org/arjunmehta/node-heartbeats)
 
-
 ![heartbeats title image](https://raw.githubusercontent.com/arjunmehta/node-heartbeats/image/heartbeats.png)
 
 A simple node.js module to very efficiently manage time-based events and objects.
@@ -22,12 +21,14 @@ npm install heartbeats
 ```
 
 ### Create a New Heart
+To create a new heartbeat you, obviously, need to create a new heart. A heart has a core heartrate, and beats at a specified interval.
 ```javascript
 var heartbeats = require('heartbeats');
 var heart = new heartbeats.Heart(1000);
 ```
 
 ### Create Pulse Instances
+ Hearts can also spawn new "Pulses" which are used to catch a "beat" from the Heart.
 ```javascript
 var pulseA = heart.newPulse();
 var pulseB = heart.newPulse();
@@ -69,7 +70,6 @@ Why is this library faster than more conventional methods? Basically, instead of
 The API is fairly straightforward, though it's good to be aware of nuances in its use.
 
 ### The Heart
-To create a new heartbeat you, obviously, need to create a new heart. A heart has a core heartrate, and beats at a specified interval. Hearts can also spawn new "Pulses" which are used to catch a "beat" from the Heart.
 
 #### Constructor: new heartbeats.Heart(heartrate)
 Creates a new "Heart" that beats at a certain heartrate in milliseconds.

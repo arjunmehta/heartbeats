@@ -1,33 +1,29 @@
-var heartbeats = {};
-var Heart = require("./lib/heart.js").initialize(heartbeats);
-
+var hearts = {};
+var Heart = require("./lib/heart.js").initialize(hearts);
 
 function create(heartrate, name){
-  heartbeats[name] = new Heart(heartrate, name);
-  return heartbeats[name];
+  hearts[name] = new Heart(heartrate, name);
+  return hearts[name];
 }
 
-
 function destroy(name){
-
-  if(heartbeats[name]){
-    clearInterval(heartbeats[name].interval);
-    heartbeats[name] = undefined;
+  if(hearts[name]){
+    clearInterval(hearts[name].interval);
+    hearts[name] = undefined;
   }
 }
 
-
 function heart(name){
-  return heartbeats[name];
+  return hearts[name];
 }
 
-
 module.exports = exports = {
-  all: heartbeats,
+  all: hearts,
   create: create,
   createHeart: create,
-  destroy: destroy,
-  destroyHeart: destroy,
+  destroy: destroy, // will be deprecated
+  destroyHeart: destroy, // will be deprecated
+  killHeart: destroy,
   heart: heart,  
   Heart: Heart
 };
