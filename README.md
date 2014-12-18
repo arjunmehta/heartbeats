@@ -100,6 +100,22 @@ heart.kill();
 
 Why is this library faster than more conventional methods? Basically, instead of using `Date().now()` or `new Date().getTime()` which are relatively very slow operations that give you very precise, universal values for the **present time**, we use the present moment of a heartbeat to give your events a time relative to that particular heart. This simple change results in extremely fast and efficient time difference calculations because it operates at a very low resolution compared to methods using the Date object, and compares basic integers vs comparing dates. View the source to see details.
 
+### Test Performance
+If you're curious, I've included a performance test using `benchmark.js` which compares a more traditional way of testing times.
+
+```bash
+# switch to the heartbeats module directory
+cd node_modules/heartbeats
+
+# install dev dependencies for the heartbeats module
+npm install
+
+# run benchmark test
+npm run benchmark
+```
+
+You'll see that the same task is performed 
+
 
 ## API
 
@@ -226,38 +242,47 @@ var delay = pulse.lag;
 
 ### Beat Events
 
-HeartBeats makes it easy for you to synchronize event execution without the need for multiple `setInterval` or `setTimeout` initializers. It ensures that actions are synchronized with respect to the heart's beat and uses the heartbeat as the measure for action, and won't get unsynchronized as is what happens when multiple `setInterval` or `setTimeout` methods are used.
+`node-heartbeats` makes it easy for you to synchronize event execution without the need for multiple `setInterval` or `setTimeout` initializers. It ensures that actions are synchronized with respect to the heart's beat and uses the heartbeat as the measure for action, and won't get unsynchronized as is what happens when multiple `setInterval` or `setTimeout` methods are used.
 
 #### heart.createEvent(beatInterval, options, function)
-This method will add a reoccuring event to the heart. Every `nth` beat specified by `beatInterval` will execute the supplied function. This method counts from the time you add the `onBeat` event. It's kind of like `setInterval`.
+This method is slightly different from the other creation methods (ie. `createHeart` and `createPulse`). Giving the object a name is done by passing a value to the options object.
+
+This method will add a reoccuring event to the heart. Every `nth` beat specified by `beatInterval` will execute the supplied function. This method counts from the time you add the event. It's kind of like `setInterval`.
+
+Use the options to set the `name` (so you can reference it, kill it, or modify it), and the number of times to `repeat` the event (0 for infinite).
 
 ```javascript
-heartbeats.heart("heartA").createEvent(5, {name: "checkA", repeat: 0}, function(){
+var event = heartbeats.heart("heartA").createEvent(5, {name: "checkA", repeat: 0}, function(){
   console.log("does this every 5 beats");
 });
 ```
 
 #### heart.event(name)
+Returns the `Event` with the specified name from the heart.
+```javascript
+var event = heartbeats.heart("heartA").event("checkA");
+```
 
 #### heart.killEvent(name)
-This will clear all beat events from the heart.
+This will instantly kill the event specified by the name.
 ```javascript
-heartbeats.heart("heartA").clearEvents();
+heartbeats.heart("heartA").killEvent("checkA");
 ```
 
 #### heart.killAllEvents()
-
 This will clear all beat events from the heart.
-
 ```javascript
 heartbeats.heart("heartA").killAllEvents();
 ```
 
 #### event.kill()
+This will instantly kill the event specified by the name.
+```javascript
+heartbeats.heart("heartA").event("checkA").kill();
+```
 
 
 ## For the Browser
-
 Heartbeats works for the browser too! To compile the script for the browser just make sure browserify is installed on your system:
 ```bash
 npm install -g browserify
@@ -279,6 +304,7 @@ Then use heartbeats in accordance with the API.
 
 ```javascript
 var heart = heartbeats.createHeart(2000, "heartA");
+// etc etc
 ```
 
 

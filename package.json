@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "nodeunit test/test.js",
-    "browser-heartbeats": "browserify . -o heartbeats.js -s heartbeats"
+    "browser-heartbeats": "browserify . -o heartbeats.js -s heartbeats",
+    "benchmark": "node ./test/benchmark.js"
   },
   "repository": {
     "type": "git",
