@@ -3,7 +3,7 @@ logs
 *.log
 
 # browserify
-bundle.js
+heartbeats.js
 
 # Runtime data
 pids
