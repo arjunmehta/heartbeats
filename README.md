@@ -183,6 +183,12 @@ Returns a new Pulse object from the heart's managed list of pulses.
 var pulse = heartbeats.heart("heartA").pulse("A");
 ```
 
+#### heart.killPulse(name);
+Kills the pulse and removes it from the heart's managed list of pulses.
+```javascript
+var pulse = heartbeats.heart("heartA").pulse("A");
+```
+
 #### pulse.beat()
 This synchronizes the pulse with its Heart. **This is the secret sauce**. Instead of using `Date().now()` or `Date().getTime()` to register an event time we match the time of the pulse with the heart.
 
@@ -192,6 +198,15 @@ Returns the `Pulse` object to chain if needed.
 // synchronizes the pulse to its heart
 pulse.beat();
 ```
+
+#### pulse.kill()
+Kills the pulse and removes it from its heart's managed list.
+
+```javascript
+// clears the pulse from memory
+pulse.kill();
+```
+
 
 #### pulse.missedBeats
 The number of heartbeats that have passed since the pulse was last synchronized with `pulse.beat()`.
@@ -213,31 +228,32 @@ var delay = pulse.lag;
 
 HeartBeats makes it easy for you to synchronize event execution without the need for multiple `setInterval` or `setTimeout` initializers. It ensures that actions are synchronized with respect to the heart's beat and uses the heartbeat as the measure for action, and won't get unsynchronized as is what happens when multiple `setInterval` or `setTimeout` methods are used.
 
-#### heart.onBeat(beatInterval, function)
+#### heart.createEvent(beatInterval, options, function)
 This method will add a reoccuring event to the heart. Every `nth` beat specified by `beatInterval` will execute the supplied function. This method counts from the time you add the `onBeat` event. It's kind of like `setInterval`.
 
 ```javascript
-heartbeats.heart("heartA").onBeat(5, function(){
+heartbeats.heart("heartA").createEvent(5, {name: "checkA", repeat: 0}, function(){
   console.log("does this every 5 beats");
 });
 ```
 
-#### heart.onceOnBeat(beatInterval, function)
-This method will add a single event to the heart. After `beatInterval` the supplied function will execute. This method counts from the time you add the `onceOnBeat` event. It's kind of like `setTimeout`.
+#### heart.event(name)
 
+#### heart.killEvent(name)
+This will clear all beat events from the heart.
 ```javascript
-heartbeats.heart("heartA").onceOnBeat(2, function(){
-  console.log("does once after 2 beats");
-});
+heartbeats.heart("heartA").clearEvents();
 ```
 
-#### heart.clearEvents()
+#### heart.killAllEvents()
 
 This will clear all beat events from the heart.
 
 ```javascript
-heartbeats.heart("heartA").clearEvents();
+heartbeats.heart("heartA").killAllEvents();
 ```
+
+#### event.kill()
 
 
 ## For the Browser
