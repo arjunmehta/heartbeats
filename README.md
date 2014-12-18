@@ -8,10 +8,10 @@ A simple node.js module to very efficiently manage time-based events and objects
 
 Use this library for comparing large numbers of _relativistic_ time lapses efficiently and for synchronizing the execution of events based on these time lapses. In effect:
 
-- **Compare the time properties of multiple "Pulse" objects to a single consistent "Heartbeat" (eg. missed beats, lag, age etc.)**
-- **Execute functions on specific Heartbeat intervals (eg. do Y every X beats, do Y in X beats)**
+- **Compare the time properties of multiple objects (Pulses) to a global time measure (Heart) operating on a specific time resolution (Heartrate)**
+- **Execute functions on specific Heartbeat intervals**
 
-This library uses a much more efficient (yet lower resolution) method of testing system level event times as relativistic time differentials (vs. universal time differentials). Think larger chunked time measures (interval counts) instead of actual milliseconds. It's also great at managing the execution of events that require precise in-system synchronization. 
+This library uses a much more efficient (lower resolution) method of testing system level event times as relativistic time differentials (vs. universal time differentials). Think larger chunked time measures (interval counts) instead of actual milliseconds. It's also great at managing the execution of events that require precise in-system synchronization. 
 
 ## Basic Usage Example
 
@@ -21,17 +21,17 @@ npm install heartbeats
 ```
 
 ### Create a New Heart
-To create a new heartbeat you, obviously, need to create a new heart. A heart has a core heartrate, and beats at a specified interval.
+A `Heart` is the core object you use to measure time. It has a core heartrate, and beats at a specified time interval (in milliseconds).
 ```javascript
 var heartbeats = require('heartbeats');
-var heart = new heartbeats.Heart(1000);
+var heart = heartbeats.createHeart(1000);
 ```
 
 ### Create Pulse Instances
  Hearts can also spawn new "Pulses" which are used to represent another object that you want to compare with a heartbeat. Catch a "beat" from the Heart.
 ```javascript
-var pulseA = heart.newPulse();
-var pulseB = heart.newPulse();
+var pulseA = heart.createPulse();
+var pulseB = heart.createPulse();
 ```
 
 ### Do Stuff with Pulses
@@ -72,9 +72,10 @@ The API is fairly straightforward, though it's good to be aware of nuances in it
 ### The Heart
 
 #### heartbeats.createHeart(heartrate, name);
+Returns a `Heart` object.
+
 You can have multiple Hearts which are kept in a list in the heartbeats module. This is great if you want to access heartbeats from different modules.
 
-Returns the heart.
 ```javascript
 // a new heart that beats every 2 seconds named "heartA"
 heartbeats.createHeart(2000, "heartA");
@@ -82,21 +83,23 @@ var heart = heartbeats.createHeart(2000, "heartB");
 ```
 
 #### heartbeats.heart(name)
-Returns a Heart from the managed list of hearts.
+
+Returns a `Heart` object from the managed list of hearts.
+
 ```javascript
 // gets a heart named "heartA"
 var heart = heartbeats.heart("heartA");
 ```
 
 #### heartbeats.killHeart(name)
-Removes the Heart from the internal managed list and clears the heartbeat interval.
+Removes the `Heart` from the internal managed list and clears the heartbeat interval.
 ```javascript
 // destroys the "heartA" heart(beat)
 heartbeats.killHeart("heartA");
 ```
 
 #### heart.setHeartrate(heartrate)
-Updates the heartrate period of the heart and returns the value. If no argument is passed it will return the current heartrate.
+Updates the heartrate period of the `Heart` and returns the `Heart` object.
 
 #### heart.kill()
 Clears the heartbeat interval and removes the Heart from the internal managed list if it exists there.
@@ -166,12 +169,23 @@ heartbeats.heart("heartA").clearEvents();
 
 
 ## For the Browser
+
 Heartbeats works for the browser too! To compile the script for the browser just run:
-```javascript
+```bash
 npm install
 ```
 
-Browserify will generate a `heartbeats.js` file for you. Copy this file to your project and include the script in yoru html.
+Browserify will generate a `heartbeats.js` file for you. Copy this file to your project and include the script in your html.
+
+```html
+<script src="heartbeats.js"/>
+```
+
+Then use heartbeats in accordance with the API.
+
+```javascript
+var heart = heartbeats.createHeart(2000, "heartA");
+```
 
 
 ## License
