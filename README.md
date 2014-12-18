@@ -140,7 +140,7 @@ heartbeats.killHeart("heartA");
 ```
 
 #### heart.setHeartrate(heartrate)
-Updates the heartrate period of the `Heart` and returns the `Heart` object.
+Updates the heartrate period of the `Heart` and returns the `Heart` object for chaining.
 ```javascript
 heartbeats.heart("heartA").setHeartrate(3000);
 ```
