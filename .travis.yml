@@ -5,5 +5,5 @@ node_js:
   - "0.9"
   - "0.8"
   - "0.6"
- before_script:
+before_script:
   - npm update -g npm
