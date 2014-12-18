@@ -11,7 +11,7 @@ Use this library for comparing large numbers of _relativistic_ time lapses effic
 - **Compare the time properties of multiple objects (Pulses) to a global time measure (Heart) operating on a specific time resolution (Heartrate)**
 - **Execute functions on specific Heartbeat intervals**
 
-This library uses a much more efficient (lower resolution) method of testing system level event times as relativistic time differentials (vs. universal time differentials). Think larger chunked time measures (interval counts) instead of actual milliseconds. It's also great at managing the execution of events that require precise in-system synchronization. 
+This library uses a much more efficient (lower resolution) method of testing system level event times as relativistic time differentials (vs. universal time differentials). Think larger chunked time measures (interval counts) instead of actual milliseconds. It's also great at managing the execution of events that require precise in-system synchronization.
 
 ## Basic Usage
 
@@ -33,7 +33,7 @@ A `Heart` is the main object you use to measure time. It has a core heartrate, a
 var heart = heartbeats.createHeart(1000);
 ```
 
-The essence of the `Heart` is its own internal heartbeat count. How many times has it beat? We can call this the Heart's age.
+The running essence of the `Heart` is its own internal heartbeat count. How many times has it beat? We call this the Heart's age.
 
 ```javascript
 var age = heart.age;
@@ -61,16 +61,15 @@ Now if we want to know how far off an object is from the Heart, we can use the P
 console.log( pulseA.missedBeats ); // 0
 console.log( pulseB.missedBeats ); // 0
 
-// Only beats pulseB
 setInterval(function(){
-  pulseB.beat(); // synchronizes its beat with the Heart.
+  pulseB.beat(); // Only synchronizing pulseB with the Heart.
   console.log( pulseA.missedBeats ); // 2, 4, 6, 8
   console.log( pulseB.missedBeats ); // 0
 }, 2000);
 ```
 
 ### Heart Events
-In addition to having Pulses, Hearts can also manage events, and execute blocks on specific heart beats, either continually (like `setInterval`) or just once (like `setTimeout`).
+In addition to having Pulses, Hearts can also manage Events, and execute blocks on specific heart beats, either continually (like `setInterval`) or just once (like `setTimeout`).
 
 This is much more efficient and much more reliable than using multiple `setInterval` methods, as they usually get unsynchronized, and introduce memory issues.
 
@@ -89,6 +88,13 @@ heart.onceOnBeat(1, function(){
 });
 ```
 
+### Kill That Heart
+Like any ongoing interval, you should kill the Heart once you no longer need it, otherwise it's likely your program will not exit until it has been properly killed.
+
+```javascript
+heart.kill();
+```
+
 
 ## About Efficiency
 
@@ -103,7 +109,7 @@ The API is fairly straightforward, though it's good to be aware of nuances in it
 #### heartbeats.createHeart(heartrate, name);
 Creates and returns a new `Heart` object.
 
-If you provide a `name` the heart is registered in the module's list of hearts (see **heartbeats.heart()**). This is useful if you want to access heartbeats from different modules.
+The heart is registered in the module's list of hearts (see **heartbeats.heart()**). This is useful if you want to access heartbeats from different modules.
 
 ```javascript
 // a new heart that beats every 2 seconds named "heartA"
@@ -114,7 +120,7 @@ If you don't provide a name, the heart will be given a unique id as its name.
 
 ```javascript
 var heart = heartbeats.createHeart(2000);
-console.log(heart.name); // heart_1
+console.log(heart.name); // heart_kajg8i27tjhv
 ```
 
 #### heartbeats.heart(name)
@@ -141,8 +147,16 @@ heartbeats.heart("heartA").setHeartrate(3000);
 
 #### heart.kill()
 Clears the heartbeat interval and removes the Heart from the internal managed list if it exists there.
+
 ```javascript
 heartbeats.heart("heartA").kill();
+```
+
+#### heart.age
+Gets the current number of beats that the heart has incremented in its lifetime.
+
+```javascript
+heartbeats.heart("heartA").age;
 ```
 
 
@@ -153,13 +167,14 @@ Returns a new Pulse object associated with the heart.
 
 ```javascript
 // creates a new pulse from the "heartA" heart(beat)
-heartbeats.heart("heartA").createPulse("A");
+var pulse = heartbeats.heart("heartA").createPulse("A");
 ```
 
-Also returns the `Pulse` object if you want to deal with it locally.
+If you don't provide a name, the heart will be given a unique id as its name.
 
 ```javascript
-var pulse = heartbeats.heart("heartA").createPulse("A");
+var heart = heartbeats.createHeart(2000);
+console.log(heart.name); // heart_kajg8i27tjhv
 ```
 
 #### heart.pulse(name);
@@ -169,14 +184,16 @@ var pulse = heartbeats.heart("heartA").pulse("A");
 ```
 
 #### pulse.beat()
-This synchronizes the pulse with its main heart. **This is the secret sauce**. Instead of using Date.now()
+This synchronizes the pulse with its Heart. **This is the secret sauce**. Instead of using `Date().now()` or `Date().getTime()` to register an event time we match the time of the pulse with the heart.
+
 ```javascript
 // synchronizes the pulse to its heart
 pulse.beat();
 ```
 
 #### pulse.missedBeats
-The number of heartbeats that have passed since it was last synchronized with `pulse.beat()`.
+The number of heartbeats that have passed since the pulse was last synchronized with `pulse.beat()`.
+
 ```javascript
 // gets the number of beats the pulse is off from its heart
 var beatoffset = pulse.missedBeats;
