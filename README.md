@@ -245,7 +245,10 @@ heartbeats.heart("heartA").clearEvents();
 Heartbeats works for the browser too! To compile the script for the browser just make sure browserify is installed on your system:
 ```bash
 npm install -g browserify
-# switch to this module's directory
+```
+
+Then head to this module's directory and run the browser-heartbeats script with npm:
+```bash
 cd node_modules/heartbeats
 npm run browser-heartbeats
 ```
