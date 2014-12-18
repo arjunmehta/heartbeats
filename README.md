@@ -55,14 +55,15 @@ pulseB.beat();
 ```
 
 ### Do Stuff with Pulses
-Now if we want to how much an object is lagging, we can use the Pulse's `missedBeats` property.
+Now if we want to know how far off an object is from the Heart, we can use the Pulse's `missedBeats` property.
 
 ```javascript
 console.log( pulseA.missedBeats ); // 0
 console.log( pulseB.missedBeats ); // 0
 
+// Only beats pulseB
 setInterval(function(){
-  pulseB.beat();
+  pulseB.beat(); // synchronizes its beat with the Heart.
   console.log( pulseA.missedBeats ); // 2, 4, 6, 8
   console.log( pulseB.missedBeats ); // 0
 }, 2000);
@@ -194,7 +195,7 @@ var delay = pulse.lag;
 HeartBeats makes it easy for you to synchronize event execution without the need for multiple `setInterval` or `setTimeout` initializers. It ensures that actions are synchronized with respect to the heart's beat and uses the heartbeat as the measure for action, and won't get unsynchronized as is what happens when multiple `setInterval` or `setTimeout` methods are used.
 
 #### heart.onBeat(beatInterval, function)
-This method will add a reoccuring event to the heart. Every `nth` beat specified by `beatInterval` will execute the supplied function. This method counts from the time you add the `onBeat` event.
+This method will add a reoccuring event to the heart. Every `nth` beat specified by `beatInterval` will execute the supplied function. This method counts from the time you add the `onBeat` event. It's kind of like `setInterval`.
 
 ```javascript
 heartbeats.heart("heartA").onBeat(5, function(){
@@ -203,7 +204,7 @@ heartbeats.heart("heartA").onBeat(5, function(){
 ```
 
 #### heart.onceOnBeat(beatInterval, function)
-This method will add a single event to the heart. After `beatInterval` the supplied function will execute. This method counts from the time you add the `onceOnBeat` event.
+This method will add a single event to the heart. After `beatInterval` the supplied function will execute. This method counts from the time you add the `onceOnBeat` event. It's kind of like `setTimeout`.
 
 ```javascript
 heartbeats.heart("heartA").onceOnBeat(2, function(){
@@ -246,7 +247,7 @@ The MIT License (MIT)
 
 Copyright (c) 2014 Arjun Mehta
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal n the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
