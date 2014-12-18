@@ -78,13 +78,13 @@ This is much more efficient and much more reliable than using multiple `setInter
 heart.onBeat(5, function(){
   console.log("...Every 5 Beats");
 });
-heart.onBeat(2, function(){
-  console.log("...Every Two Beats");
+heart.onBeat(1, function(){
+  console.log("...Every Single Beats");
 });
 
 // Alternative to setTimeout
-heart.onceOnBeat(1, function(){
-  console.log("...Every Single Beat");
+heart.onceOnBeat(2, function(){
+  console.log("...After 2 Beats");
 });
 ```
 
