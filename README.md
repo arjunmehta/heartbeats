@@ -28,7 +28,7 @@ var heart = new heartbeats.Heart(1000);
 ```
 
 ### Create Pulse Instances
- Hearts can also spawn new "Pulses" which are used to catch a "beat" from the Heart.
+ Hearts can also spawn new "Pulses" which are used to represent another object that you want to compare with a heartbeat. Catch a "beat" from the Heart.
 ```javascript
 var pulseA = heart.newPulse();
 var pulseB = heart.newPulse();
@@ -71,48 +71,44 @@ The API is fairly straightforward, though it's good to be aware of nuances in it
 
 ### The Heart
 
-#### Constructor: new heartbeats.Heart(heartrate)
-Creates a new "Heart" that beats at a certain heartrate in milliseconds.
-```javascript
-// a new heart that beats approximately every 2 seconds
-var heart = new heartbeats.Heart(2000);
-```
-
-#### Managed: heartbeats.createHeart(heartrate, name);
+#### heartbeats.createHeart(heartrate, name);
 You can have multiple Hearts which are kept in a list in the heartbeats module. This is great if you want to access heartbeats from different modules.
+
+Returns the heart.
 ```javascript
-// a new heart that beats every 2 seconds named "global"
-heartbeats.createHeart(2000, "global");
+// a new heart that beats every 2 seconds named "heartA"
+heartbeats.createHeart(2000, "heartA");
+var heart = heartbeats.createHeart(2000, "heartB");
 ```
 
-#### Managed: heartbeats.heart(name)
+#### heartbeats.heart(name)
 Returns a Heart from the managed list of hearts.
 ```javascript
-// gets a heart named "global"
-var heart = heartbeats.heart("global");
+// gets a heart named "heartA"
+var heart = heartbeats.heart("heartA");
 ```
 
-#### Managed: heartbeats.destroyHeart(name)
+#### heartbeats.killHeart(name)
 Removes the Heart from the internal managed list and clears the heartbeat interval.
 ```javascript
-// destroys the "global" heart(beat)
-heartbeats.destroyHeart("global");
+// destroys the "heartA" heart(beat)
+heartbeats.killHeart("heartA");
 ```
 
 #### heart.setHeartrate(heartrate)
 Updates the heartrate period of the heart and returns the value. If no argument is passed it will return the current heartrate.
 
-#### heart.destroy()
-Clears the heartbeat interval and removes the Heart from the internal managed list if it exists.
+#### heart.kill()
+Clears the heartbeat interval and removes the Heart from the internal managed list if it exists there.
 
 
 ### The Pulse
 
-#### heart.newPulse();
+#### heart.createPulse(name);
 Returns a new Pulse object associated with the heart.
 ```javascript
-// creates a new pulse from the "global" heart(beat)
-var pulse = heartbeats.heart("global").newPulse();
+// creates a new pulse from the "heartA" heart(beat)
+var pulse = heartbeats.heart("heartA").createPulse("A");
 ```
 
 
@@ -146,7 +142,7 @@ HeartBeats makes it easy for you to synchronize event execution without the need
 This method will add a reoccuring event to the heart. Every `nth` beat specified by `beatInterval` will execute the supplied function. This method counts from the time you add the `onBeat` event.
 
 ```javascript
-heartbeats.heart("global").onBeat(5, function(){
+heartbeats.heart("heartA").onBeat(5, function(){
   console.log("does this every 5 beats");
 });
 ```
@@ -155,7 +151,7 @@ heartbeats.heart("global").onBeat(5, function(){
 This method will add a single event to the heart. After `beatInterval` the supplied function will execute. This method counts from the time you add the `onceOnBeat` event.
 
 ```javascript
-heartbeats.heart("global").onceOnBeat(2, function(){
+heartbeats.heart("heartA").onceOnBeat(2, function(){
   console.log("does once after 2 beats");
 });
 ```
@@ -165,8 +161,17 @@ heartbeats.heart("global").onceOnBeat(2, function(){
 This will clear all beat events from the heart.
 
 ```javascript
-heartbeats.heart("global").clearEvents();
+heartbeats.heart("heartA").clearEvents();
 ```
+
+
+## For the Browser
+Heartbeats works for the browser too! To compile the script for the browser just run:
+```javascript
+npm install
+```
+
+Browserify will generate a `heartbeats.js` file for you. Copy this file to your project and include the script in yoru html.
 
 
 ## License

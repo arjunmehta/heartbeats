@@ -2,9 +2,10 @@ var heartbeats = require('../main');
 
 
 exports.newHeart = function(test){
-  test.expect(1);
-  heartbeats.createHeart(1000, "globalBeat");
+  test.expect(2);
+  var heart = heartbeats.createHeart(1000, "globalBeat");
   test.equal((heartbeats.heart("globalBeat") !== undefined), true);
+  test.equal((heartbeats.heart("globalBeat") === heart), true);
   test.done();
 };
 
@@ -15,8 +16,8 @@ exports.testPulses = function(test){
   test.expect(1);
 
   var obj = {
-    pulseA : heart.newPulse(),  
-    pulseB : heart.newPulse(),  
+    pulseA : heart.createPulse(),
+    pulseB : heart.createPulse(),
   };
 
   var iA = setInterval(function(){
@@ -46,39 +47,36 @@ exports.testPulses = function(test){
 
 
 exports.addEvent = function(test){
-
   test.expect(3);
 
   var presentInit = heartbeats.heart("globalBeat").heartbeat;
 
   heartbeats.heart("globalBeat").onBeat(3, function(heartbeat){
     console.log("onBeat 3", heartbeat-presentInit);
-    test.equal(true, true);    
+    test.equal(true, true);
   });
 
 
   heartbeats.heart("globalBeat").onBeat(7, function(heartbeat){
     console.log("onBeat 7", heartbeat-presentInit);
-    test.equal(true, true);    
+    test.equal(true, true);
     test.done();
-  });  
+  });
 };
 
 
 exports.removeEvents = function(test){
-
   test.expect(1);
 
   heartbeats.heart("globalBeat").clearEvents();
 
-  test.equal(heartbeats.heart("globalBeat").events.length, 0);    
+  test.equal(heartbeats.heart("globalBeat").events.length, 0);
   test.done();
 };
 
 
 
 exports.addSingleEvent = function(test){
-
   test.expect(4);
 
   var presentInit = heartbeats.heart("globalBeat").heartbeat;
@@ -100,27 +98,24 @@ exports.addSingleEvent = function(test){
 
   heartbeats.heart("globalBeat").onceOnBeat(3, function(heartbeat){
     console.log("onceOnBeat 3", heartbeat-presentInit);
-    test.equal(true, true);    
+    test.equal(true, true);
     test.done();
-  });  
+  });
 };
 
-
 exports.removeEvents = function(test){
-
   test.expect(1);
 
   heartbeats.heart("globalBeat").clearEvents();
 
-  test.equal(heartbeats.heart("globalBeat").events.length, 0);    
+  test.equal(heartbeats.heart("globalBeat").events.length, 0);
   test.done();
 };
 
 exports.removeHeart = function(test){
-
   test.expect(1);
 
-  heartbeats.destroyHeart("globalBeat");
+  heartbeats.killHeart("globalBeat");
   test.equal((heartbeats.heart("globalBeat") === undefined), true);
   test.done();
 };

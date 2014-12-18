@@ -28,11 +28,11 @@ var Pulse = require("./pulse.js");
 var BeatEvent = require("./beatevent.js");
 
 var idCount = 0;
-var heartbeats = {};
+var hearts = {};
 
 
-function initialize(global_heartbeats){
-  heartbeats = global_heartbeats;
+function initialize(global_hearts){
+  hearts = global_hearts;
   return Heart;
 }
 
@@ -44,26 +44,35 @@ function Heart(heartrate, name){
   this.events = [];
   this.eventsExist = false;
 
-  this.id = name || "beat_"+idCount;
+  this.id = name || "heart_"+idCount;
   this.heartrate = heartrate || 2500;
+
+  this.pulses = {};
 
   this.interval = setInterval(createInterval(this), heartrate);
 
   idCount++;
 }
 
-Heart.prototype.destroy = function(){
+Heart.prototype.kill = Heart.prototype.destroy = function(){
 
   clearInterval(this.interval);
 
-  if(heartbeats[this.id] !== undefined){
-    heartbeats[this.id] = undefined;
+  if(hearts[this.id] !== undefined){
+    hearts[this.id] = undefined;
   }
 };
 
+Heart.prototype.newPulse = Heart.prototype.createPulse = function(name){
+  var pulse = new Pulse(this, name);
+  this.pulses[pulse.id] = pulse;
+  return pulse;
+};
 
-Heart.prototype.newPulse = function(){
-  return new Pulse(this);
+Heart.prototype.killPulse = function(name){
+  if(this.pulses[name] !== undefined){
+    this.pulses[name] = undefined;
+  }
 };
 
 
@@ -79,11 +88,19 @@ Heart.prototype.setHeartrate = function(heartrate){
 };
 
 
+Heart.prototype.setInterval = function(fn, modulo){
+  this.onBeat(modulo, fn);
+};
+
 Heart.prototype.onBeat = function(modulo, fn){
   this.prepEvents();
   this.events.push(new BeatEvent(this, modulo, false, fn));
 };
 
+
+Heart.prototype.setTimeout = function(fn, modulo){
+  this.onceOnBeat(modulo, fn);
+};
 
 Heart.prototype.onceOnBeat = function(modulo, fn){
   this.prepEvents();
@@ -140,11 +157,15 @@ exports = module.exports = {
 };
 
 },{"./beatevent.js":1,"./pulse.js":3}],3:[function(require,module,exports){
-function Pulse(homeheart){
+function Pulse(homeheart, name){
+  this.id = name || "pulse_"+idCount;
   this.heart = homeheart;
   this.heartbeat = homeheart.heartbeat;
 }
 
+Pulse.prototype.kill = Pulse.prototype.destroy = function(){
+  this.heart.killPulse(this.id);
+};
 
 Pulse.prototype.beat = Pulse.prototype.pulse = function(){
   this.heartbeat = this.heart.heartbeat;
@@ -172,38 +193,36 @@ Pulse.prototype.over = function(threshold){
 
 exports = module.exports = Pulse;
 },{}],4:[function(require,module,exports){
-var heartbeats = {};
-var Heart = require("./lib/heart.js").initialize(heartbeats);
-
+var hearts = {};
+var Heart = require("./lib/heart.js").initialize(hearts);
 
 function create(heartrate, name){
-  heartbeats[name] = new Heart(heartrate, name);
-  return heartbeats[name];
+  var heart = new Heart(heartrate, name);
+  hearts[heart.id] = heart;
+  return heart;
 }
 
-
-function destroy(name){
-
-  if(heartbeats[name]){
-    clearInterval(heartbeats[name].interval);
-    heartbeats[name] = undefined;
+function killHeart(name){
+  if(hearts[name]){
+    clearInterval(hearts[name].interval);
+    hearts[name] = undefined;
   }
 }
 
-
 function heart(name){
-  return heartbeats[name];
+  return hearts[name];
 }
 
-
 module.exports = exports = {
-  all: heartbeats,
-  create: create,
+  all: hearts, // will be deprecated
+  hearts: hearts,
+  create: create, // will be deprecated
   createHeart: create,
-  destroy: destroy,
-  destroyHeart: destroy,
+  destroy: killHeart, // will be deprecated
+  destroyHeart: killHeart, // will be deprecated
+  killHeart: killHeart,
   heart: heart,  
-  Heart: Heart
+  Heart: Heart // will be deprecated
 };
 },{"./lib/heart.js":2}]},{},[4])(4)
 });
