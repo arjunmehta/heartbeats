@@ -13,7 +13,7 @@ Use this library for comparing large numbers of _relativistic_ time lapses effic
 
 This library uses a much more efficient (lower resolution) method of testing system level event times as relativistic time differentials (vs. universal time differentials). Think larger chunked time measures (interval counts) instead of actual milliseconds. It's also great at managing the execution of events that require precise in-system synchronization. 
 
-## Basic Usage Example
+## Basic Usage
 
 ### Install
 ```bash
@@ -33,28 +33,30 @@ A `Heart` is the main object you use to measure time. It has a core heartrate, a
 var heart = heartbeats.createHeart(1000);
 ```
 
-Essentially the main feature of the heart is its own internal heartbeat count. How many times has it beat? We can call this the heart's age.
+The essence of the `Heart` is its own internal heartbeat count. How many times has it beat? We can call this the Heart's age.
 
 ```javascript
-var beatCount = heart.age;
+var age = heart.age;
 ```
 
-### Create Pulse Instances
- Hearts can also spawn new "Pulses" which are used to represent another object that you want to compare with a heartbeat.
+### Creating and Using Pulse Instances
+A `Pulse` is time-based object used to represent a part of your system that you want to measure time events with. Pulses belong to a Heart.
+
 ```javascript
 var pulseA = heart.createPulse();
 var pulseB = heart.createPulse();
 ```
 
-Instead of using `Date.now()` or `Date.getTime()` and comparing those values to some other time, you `pulse.beat()`. This essentially synchronizes the pulse's current moment to its heart.
+Instead of storing an event's time as `Date.now()` or `Date.getTime()` and comparing those values to some other time, you `pulse.beat()` to synchronize the Pulse's time with its Heart.
 
 ```javascript
 pulseA.beat();
 pulseB.beat();
 ```
 
-
 ### Do Stuff with Pulses
+Now if we want to how much an object is lagging, we can use the Pulse's `missedBeats` property.
+
 ```javascript
 console.log( pulseA.missedBeats ); // 0
 console.log( pulseB.missedBeats ); // 0
@@ -66,7 +68,9 @@ setInterval(function(){
 }, 2000);
 ```
 
-### Do Something Every X HeartBeats
+### Heart Events
+In addition to having Pulses, Hearts can also manage events, and execute blocks on specific heart beats, either continually (like `setInterval`) or just once (like `setTimeout`).
+
 ```javascript
 heart.onBeat(5, function(){
   console.log("...Every 5 Beats");
@@ -74,7 +78,7 @@ heart.onBeat(5, function(){
 heart.onBeat(2, function(){
   console.log("...Every Two Beats");
 });
-heart.onBeat(1, function(){
+heart.onceOnBeat(1, function(){
   console.log("...Every Single Beat");
 });
 ```
