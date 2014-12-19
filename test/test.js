@@ -61,13 +61,13 @@ exports.addEvent = function(test) {
 
     var presentInit = heartbeats.heart("globalBeat").heartbeat;
 
-    heartbeats.heart("globalBeat").onBeat(3, function(heartbeat) {
+    heartbeats.heart("globalBeat").createEvent(3, function(heartbeat) {
         console.log("onBeat 3", heartbeat - presentInit);
         test.equal(true, true);
     });
 
 
-    heartbeats.heart("globalBeat").onBeat(7, function(heartbeat) {
+    heartbeats.heart("globalBeat").createEvent(7, function(heartbeat) {
         console.log("onBeat 7", heartbeat - presentInit);
         test.equal(true, true);
         test.done();
@@ -91,22 +91,22 @@ exports.addSingleEvent = function(test) {
 
     var presentInit = heartbeats.heart("globalBeat").heartbeat;
 
-    heartbeats.heart("globalBeat").onceOnBeat(1, function(heartbeat) {
+    heartbeats.heart("globalBeat").createEvent(1, {repeat: 1}, function(heartbeat) {
         console.log("onceOnBeat 1", heartbeat - presentInit);
         test.equal(true, true);
     });
 
-    heartbeats.heart("globalBeat").onceOnBeat(2, function(heartbeat) {
+    heartbeats.heart("globalBeat").createEvent(2, {repeat: 1}, function(heartbeat) {
         console.log("onceOnBeat 2", heartbeat - presentInit);
         test.equal(true, true);
     });
 
-    heartbeats.heart("globalBeat").onceOnBeat(2, function(heartbeat) {
+    heartbeats.heart("globalBeat").createEvent(2, {repeat: 1}, function(heartbeat) {
         console.log("onceOnBeat 2", heartbeat - presentInit);
         test.equal(true, true);
     });
 
-    heartbeats.heart("globalBeat").onceOnBeat(3, function(heartbeat) {
+    heartbeats.heart("globalBeat").createEvent(3, {repeat: 1}, function(heartbeat) {
         console.log("onceOnBeat 3", heartbeat - presentInit);
         test.equal(true, true);
         test.done();
@@ -116,7 +116,7 @@ exports.addSingleEvent = function(test) {
 exports.removeEvents = function(test) {
     test.expect(1);
 
-    heartbeats.heart("globalBeat").clearEvents();
+    heartbeats.heart("globalBeat").killAllEvents();
 
     test.equal(heartbeats.heart("globalBeat").events.length, 0);
     test.done();

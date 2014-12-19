@@ -249,7 +249,9 @@ This method is slightly different from the other creation methods (ie. `createHe
 
 This method will add a reoccuring event to the heart. Every `nth` beat specified by `beatInterval` will execute the supplied function. This method counts from the time you add the event. It's kind of like `setInterval`.
 
-Use the options to set the `name` (so you can reference it, kill it, or modify it), and the number of times to `repeat` the event (0 for infinite).
+##### Options
+`name`: Give the Event a custom name, so you can reference it, kill it, or modify it using `heart.event(name)`
+`repeat`: Repeat the event a specified number of times (use `0` for infinite). By default, this is set to `0` or infinite. If set to a finite number, the event will be killed and cleared from memory once executed the last time.
 
 ```javascript
 var event = heartbeats.heart("heartA").createEvent(5, {name: "checkA", repeat: 0}, function(){
