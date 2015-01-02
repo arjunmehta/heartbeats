@@ -78,7 +78,7 @@ exports.addEvent = function(test) {
 exports.removeEvents = function(test) {
     test.expect(1);
 
-    heartbeats.heart("globalBeat").clearEvents();
+    heartbeats.heart("globalBeat").killAllEvents();
 
     test.equal(heartbeats.heart("globalBeat").events.length, 0);
     test.done();

@@ -75,16 +75,24 @@ This is much more efficient and much more reliable than using multiple `setInter
 
 ```javascript
 // Alternative to setInterval
-heart.onBeat(5, function(){
-  console.log("...Every 5 Beats");
+heart.createEvent(5, function(heartbeat, last){
+  console.log("...Every 5 Beats forever");
 });
-heart.onBeat(1, function(){
-  console.log("...Every Single Beats");
+
+heart.createEvent(1, function(heartbeat, last){
+  console.log("...Every Single Beat forever");
+});
+
+heart.createEvent(1, {repeat: 3}, function(heartbeat, last){
+  console.log("...Every Single Beat for 3 beats only");
+  if(last === true){
+    console.log("...the last time.")
+  }
 });
 
 // Alternative to setTimeout
-heart.onceOnBeat(2, function(){
-  console.log("...After 2 Beats");
+heart.createEvent(2, {repeat: 1}, function(heartbeat, last){
+  console.log("...Once after 2 Beats");
 });
 ```
 
@@ -114,7 +122,7 @@ npm install
 npm run benchmark
 ```
 
-You'll see that the same task is performed 
+Have a look at the `benchmark.js` file in the tests directory to see how the benchmark is done.
 
 
 ## API
@@ -125,22 +133,25 @@ The API is fairly straightforward, though it's good to be aware of nuances in it
 #### heartbeats.createHeart(heartrate, name);
 Creates and returns a new `Heart` object.
 
-The heart is registered in the module's list of hearts (see **heartbeats.heart()**). This is useful if you want to access heartbeats from different modules.
+If you provide a name, the heart is registered in the module's list of hearts (see **heartbeats.heart()**). This is useful if you want to access heartbeats from different modules.
 
 ```javascript
 // a new heart that beats every 2 seconds named "heartA"
 var heart = heartbeats.createHeart(2000, "heartA");
 ```
 
-If you don't provide a name, the heart will be given a unique id as its name.
+If you don't provide a name, the heart will be returned but will not be added to the `heartbeats.hearts` object.
 
 ```javascript
 var heart = heartbeats.createHeart(2000);
 console.log(heart.name); // heart_kajg8i27tjhv
 ```
 
+#### heartbeats.hearts
+An object with all hearts that have been instantiated with a name.
+
 #### heartbeats.heart(name)
-Returns a `Heart` object from the managed list of hearts.
+Returns a `Heart` object with a name from the managed list of hearts.
 
 ```javascript
 // gets a heart named "heartA"
@@ -155,17 +166,18 @@ Removes the `Heart` from the internal managed list and clears the heartbeat inte
 heartbeats.killHeart("heartA");
 ```
 
-#### heart.setHeartrate(heartrate)
-Updates the heartrate period of the `Heart` and returns the `Heart` object for chaining.
-```javascript
-heartbeats.heart("heartA").setHeartrate(3000);
-```
-
 #### heart.kill()
 Clears the heartbeat interval and removes the Heart from the internal managed list if it exists there.
 
 ```javascript
 heartbeats.heart("heartA").kill();
+```
+
+
+#### heart.setHeartrate(heartrate)
+Updates the heartrate period of the `Heart` and returns the `Heart` object for chaining.
+```javascript
+heartbeats.heart("heartA").setHeartrate(3000);
 ```
 
 #### heart.age
@@ -181,29 +193,42 @@ heartbeats.heart("heartA").age;
 #### heart.createPulse(name);
 Returns a new Pulse object associated with the heart.
 
+If you provide a name, the Pulse is added to the Heart's internal managed list of Pulses (ie. `heart.pulses`). This is useful if 
+
 ```javascript
 // creates a new pulse from the "heartA" heart(beat)
 var pulse = heartbeats.heart("heartA").createPulse("A");
 ```
 
-If you don't provide a name, the heart will be given a unique id as its name.
+If you don't provide a name, the pulse will be returned without being added to the Heart's managed list of Pulses.
 
 ```javascript
-var heart = heartbeats.createHeart(2000);
-console.log(heart.name); // heart_kajg8i27tjhv
+var pulseA = heartbeats.heart("heartA").createPulse();
 ```
 
+#### heart.pulses
+An object with all pulses belonging to the heart, that have been instantiated with a name.
+
 #### heart.pulse(name);
-Returns a new Pulse object from the heart's managed list of pulses.
+Returns the Pulse object from the heart's managed list of pulses.
 ```javascript
-var pulse = heartbeats.heart("heartA").pulse("A");
+var pulseA = heartbeats.heart("heartA").pulse("A");
 ```
 
 #### heart.killPulse(name);
-Kills the pulse and removes it from the heart's managed list of pulses.
+Kills the Pulse and removes it from the heart's managed list of Pulses.
 ```javascript
 var pulse = heartbeats.heart("heartA").pulse("A");
 ```
+
+#### pulse.kill()
+Kills the pulse and removes it from its heart's managed list (if it exists there).
+
+```javascript
+// clears the pulse from memory
+pulse.kill();
+```
+
 
 #### pulse.beat()
 This synchronizes the pulse with its Heart. **This is the secret sauce**. Instead of using `Date().now()` or `Date().getTime()` to register an event time we match the time of the pulse with the heart.
@@ -214,15 +239,6 @@ Returns the `Pulse` object to chain if needed.
 // synchronizes the pulse to its heart
 pulse.beat();
 ```
-
-#### pulse.kill()
-Kills the pulse and removes it from its heart's managed list.
-
-```javascript
-// clears the pulse from memory
-pulse.kill();
-```
-
 
 #### pulse.missedBeats
 The number of heartbeats that have passed since the pulse was last synchronized with `pulse.beat()`.
@@ -249,13 +265,31 @@ This method is slightly different from the other creation methods (ie. `createHe
 
 This method will add a reoccuring event to the heart. Every `nth` beat specified by `beatInterval` will execute the supplied function. This method counts from the time you add the event. It's kind of like `setInterval`.
 
+
+
 ##### Options
 `name`: Give the Event a custom name, so you can reference it, kill it, or modify it using `heart.event(name)`
-`repeat`: Repeat the event a specified number of times (use `0` for infinite). By default, this is set to `0` or infinite. If set to a finite number, the event will be killed and cleared from memory once executed the last time.
+`repeat`: default is `0` (infinite). Repeat the event a specified number of times (use `0` for infinite). If set to a finite number, the event will be killed and cleared from memory once executed the last time.
+
+##### Callback Function
+The callback function is called with `heartbeat` and `last` as arguments.
+
+The following example creates a new event called `checkA`, on an existing heart named `heartA` that executes every 5th beat, repeats forever. The `last` argument passed to the callback will always be `false`.
 
 ```javascript
-var event = heartbeats.heart("heartA").createEvent(5, {name: "checkA", repeat: 0}, function(){
+var event = heartbeats.heart("heartA").createEvent(5, {name: "checkA", repeat: 0}, function(heartbeat, last){
   console.log("does this every 5 beats");
+});
+```
+
+The following example creates an anonymous event on the heart named `heartA` that excutes every 4th beats but stops once it has been executed 3 times.
+
+```javascript
+heartbeats.heart("heartA").createEvent(4, {repeat: 3}, function(heartbeat, last){
+  console.log("does this every 4 beats");
+  if(last === true){
+    console.log("this is the last execution of this method")
+  }
 });
 ```
 

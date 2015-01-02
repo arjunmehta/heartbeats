@@ -1,17 +1,18 @@
 var hearts = {};
 var Heart = require("./lib/heart.js").initialize(hearts);
 
-function createHeart(heartrate, name) {
-    killHeart(name);
+function createHeart(heartrate, name) {    
     var heart = new Heart(heartrate, name);
-    hearts[heart.id] = heart;
+    if (name) {
+        killHeart(name);
+        hearts[heart.id] = heart;
+    }
     return heart;
 }
 
 function killHeart(name) {
     if (hearts[name]) {
-        clearInterval(hearts[name].interval);
-        hearts[name] = undefined;
+        hearts[name].kill();
     }
 }
 
