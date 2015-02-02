@@ -1,5 +1,19 @@
 var heartbeats = require('../main');
+var spawn = require('child_process').spawn;
 
+exports.unrefHeart = function(test) {
+
+    test.expect(1);
+
+    var unref_test = spawn('node', ['./test/spawn.js'], {
+        stdio: 'inherit'
+    });
+
+    unref_test.on('exit', function(code) {        
+        test.equal(code, 0);
+        test.done();
+    });
+};
 
 exports.newHeart = function(test) {
     test.expect(2);
@@ -43,7 +57,7 @@ exports.testPulses = function(test) {
         for (var pulse in obj) {
             if (obj[pulse].missedBeats > 3) {
                 console.log(pulse, "lag is over 3000ms:", obj[pulse].lag, "missedBeats:", obj[pulse].missedBeats);
-                test.equal(true, true);                
+                test.equal(true, true);
                 clearInterval(iA);
                 clearInterval(iB);
                 clearInterval(iC);
@@ -66,12 +80,13 @@ exports.addEvent = function(test) {
         test.equal(true, true);
     });
 
-
     heartbeats.heart("globalBeat").createEvent(7, function(heartbeat) {
         console.log("onBeat 7", heartbeat - presentInit);
         test.equal(true, true);
         test.done();
     });
+
+    setTimeout(function() {}, 7500);
 };
 
 
@@ -91,26 +106,36 @@ exports.addSingleEvent = function(test) {
 
     var presentInit = heartbeats.heart("globalBeat").heartbeat;
 
-    heartbeats.heart("globalBeat").createEvent(1, {repeat: 1}, function(heartbeat) {
+    heartbeats.heart("globalBeat").createEvent(1, {
+        repeat: 1
+    }, function(heartbeat) {
         console.log("onceOnBeat 1", heartbeat - presentInit);
         test.equal(true, true);
     });
 
-    heartbeats.heart("globalBeat").createEvent(2, {repeat: 1}, function(heartbeat) {
+    heartbeats.heart("globalBeat").createEvent(2, {
+        repeat: 1
+    }, function(heartbeat) {
         console.log("onceOnBeat 2", heartbeat - presentInit);
         test.equal(true, true);
     });
 
-    heartbeats.heart("globalBeat").createEvent(2, {repeat: 1}, function(heartbeat) {
+    heartbeats.heart("globalBeat").createEvent(2, {
+        repeat: 1
+    }, function(heartbeat) {
         console.log("onceOnBeat 2", heartbeat - presentInit);
         test.equal(true, true);
     });
 
-    heartbeats.heart("globalBeat").createEvent(3, {repeat: 1}, function(heartbeat) {
+    heartbeats.heart("globalBeat").createEvent(3, {
+        repeat: 1
+    }, function(heartbeat) {
         console.log("onceOnBeat 3", heartbeat - presentInit);
         test.equal(true, true);
         test.done();
     });
+
+    setTimeout(function() {}, 3500);
 };
 
 exports.removeEvents = function(test) {
