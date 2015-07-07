@@ -2,7 +2,7 @@ var heartbeats = require('../main');
 var heart = heartbeats.createHeart(1000);
 
 heart.createEvent(1, function(){
-	console.log("testing....");
+	console.log("testing unreferencing...");
 });
 
 setTimeout(function(){}, 2000);
