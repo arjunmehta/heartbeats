@@ -24,7 +24,11 @@
         "pulse",
         "timing",
         "timer",
-        "relativity"
+        "relativity",
+        "interval",
+        "timeout",
+        "events",
+        "event manager"
     ],
     "author": "Arjun Mehta",
     "license": "MIT",
