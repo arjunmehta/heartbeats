@@ -76,23 +76,23 @@ This is much more efficient and much more reliable than using multiple `setInter
 ```javascript
 // Alternative to setInterval
 heart.createEvent(5, function(heartbeat, last){
-  console.log("...Every 5 Beats forever");
+  console.log('...Every 5 Beats forever');
 });
 
 heart.createEvent(1, function(heartbeat, last){
-  console.log("...Every Single Beat forever");
+  console.log('...Every Single Beat forever');
 });
 
 heart.createEvent(1, {repeat: 3}, function(heartbeat, last){
-  console.log("...Every Single Beat for 3 beats only");
+  console.log('...Every Single Beat for 3 beats only');
   if(last === true){
-    console.log("...the last time.")
+    console.log('...the last time.')
   }
 });
 
 // Alternative to setTimeout
 heart.createEvent(2, {repeat: 1}, function(heartbeat, last){
-  console.log("...Once after 2 Beats");
+  console.log('...Once after 2 Beats');
 });
 ```
 
@@ -136,8 +136,8 @@ Creates and returns a new `Heart` object.
 If you provide a name, the heart is registered in the module's list of hearts (see **heartbeats.heart()**). This is useful if you want to access heartbeats from different modules.
 
 ```javascript
-// a new heart that beats every 2 seconds named "heartA"
-var heart = heartbeats.createHeart(2000, "heartA");
+// a new heart that beats every 2 seconds named 'heartA'
+var heart = heartbeats.createHeart(2000, 'heartA');
 ```
 
 If you don't provide a name, the heart will be returned but will not be added to the `heartbeats.hearts` object.
@@ -154,37 +154,37 @@ An object with all hearts that have been instantiated with a name.
 Returns a `Heart` object with a name from the managed list of hearts.
 
 ```javascript
-// gets a heart named "heartA"
-var heart = heartbeats.heart("heartA");
+// gets a heart named 'heartA'
+var heart = heartbeats.heart('heartA');
 ```
 
 #### heartbeats.killHeart(name)
 Removes the `Heart` from the internal managed list and clears the heartbeat interval. This only works if the heart was created with a `name`.
 
 ```javascript
-// destroys the "heartA" heart(beat)
-heartbeats.killHeart("heartA");
+// destroys the 'heartA' heart(beat)
+heartbeats.killHeart('heartA');
 ```
 
 #### heart.kill()
 Clears the heartbeat interval and removes the Heart from the internal managed list if it exists there.
 
 ```javascript
-heartbeats.heart("heartA").kill();
+heartbeats.heart('heartA').kill();
 ```
 
 
 #### heart.setHeartrate(heartrate)
 Updates the heartrate period of the `Heart` and returns the `Heart` object for chaining.
 ```javascript
-heartbeats.heart("heartA").setHeartrate(3000);
+heartbeats.heart('heartA').setHeartrate(3000);
 ```
 
 #### heart.age
 Gets the current number of beats that the heart has incremented in its lifetime.
 
 ```javascript
-heartbeats.heart("heartA").age;
+heartbeats.heart('heartA').age;
 ```
 
 
@@ -196,14 +196,14 @@ Returns a new Pulse object associated with the heart.
 If you provide a name, the Pulse is added to the Heart's internal managed list of Pulses (ie. `heart.pulses`). This is useful if 
 
 ```javascript
-// creates a new pulse from the "heartA" heart(beat)
-var pulse = heartbeats.heart("heartA").createPulse("A");
+// creates a new pulse from the 'heartA' heart(beat)
+var pulse = heartbeats.heart('heartA').createPulse('A');
 ```
 
 If you don't provide a name, the pulse will be returned without being added to the Heart's managed list of Pulses.
 
 ```javascript
-var pulseA = heartbeats.heart("heartA").createPulse();
+var pulseA = heartbeats.heart('heartA').createPulse();
 ```
 
 #### heart.pulses
@@ -212,13 +212,13 @@ An object with all pulses belonging to the heart, that have been instantiated wi
 #### heart.pulse(name);
 Returns the Pulse object from the heart's managed list of pulses.
 ```javascript
-var pulseA = heartbeats.heart("heartA").pulse("A");
+var pulseA = heartbeats.heart('heartA').pulse('A');
 ```
 
 #### heart.killPulse(name);
 Kills the Pulse and removes it from the heart's managed list of Pulses.
 ```javascript
-var pulse = heartbeats.heart("heartA").pulse("A");
+var pulse = heartbeats.heart('heartA').pulse('A');
 ```
 
 #### pulse.kill()
@@ -277,18 +277,18 @@ The callback function is called with `heartbeat` and `last` as arguments.
 The following example creates a new event called `checkA`, on an existing heart named `heartA` that executes every 5th beat, repeats forever. The `last` argument passed to the callback will always be `false`.
 
 ```javascript
-var event = heartbeats.heart("heartA").createEvent(5, {name: "checkA", repeat: 0}, function(heartbeat, last){
-  console.log("does this every 5 beats");
+var event = heartbeats.heart('heartA').createEvent(5, {name: 'checkA', repeat: 0}, function(heartbeat, last){
+  console.log('does this every 5 beats');
 });
 ```
 
 The following example creates an anonymous event on the heart named `heartA` that excutes every 4th beats but stops once it has been executed 3 times.
 
 ```javascript
-heartbeats.heart("heartA").createEvent(4, {repeat: 3}, function(heartbeat, last){
-  console.log("does this every 4 beats");
+heartbeats.heart('heartA').createEvent(4, {repeat: 3}, function(heartbeat, last){
+  console.log('does this every 4 beats');
   if(last === true){
-    console.log("this is the last execution of this method")
+    console.log('this is the last execution of this method')
   }
 });
 ```
@@ -296,25 +296,25 @@ heartbeats.heart("heartA").createEvent(4, {repeat: 3}, function(heartbeat, last)
 #### heart.event(name)
 Returns the `Event` with the specified name from the heart.
 ```javascript
-var event = heartbeats.heart("heartA").event("checkA");
+var event = heartbeats.heart('heartA').event('checkA');
 ```
 
 #### heart.killEvent(name)
 This will instantly kill the event specified by the name.
 ```javascript
-heartbeats.heart("heartA").killEvent("checkA");
+heartbeats.heart('heartA').killEvent('checkA');
 ```
 
 #### heart.killAllEvents()
 This will clear all beat events from the heart.
 ```javascript
-heartbeats.heart("heartA").killAllEvents();
+heartbeats.heart('heartA').killAllEvents();
 ```
 
 #### event.kill()
 This will instantly kill the event specified by the name.
 ```javascript
-heartbeats.heart("heartA").event("checkA").kill();
+heartbeats.heart('heartA').event('checkA').kill();
 ```
 
 
@@ -339,7 +339,7 @@ Browserify will generate a `heartbeats.js` file for you. Copy this file to your 
 Then use heartbeats in accordance with the API.
 
 ```javascript
-var heart = heartbeats.createHeart(2000, "heartA");
+var heart = heartbeats.createHeart(2000, 'heartA');
 // etc etc
 ```
 
