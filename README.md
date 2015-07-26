@@ -39,8 +39,36 @@ The running essence of the `Heart` is its own internal heartbeat count. How many
 var age = heart.age;
 ```
 
-### Creating and Using Pulse Instances
-A `Pulse` is a time-based object used to represent a part of your system that you want to measure time events with. Pulses belong to a Heart.
+### Heart Events
+Hearts manage Events, and execute blocks on specific heart beats, either continually (like `setInterval`) or just once (like `setTimeout`).
+
+This is much more efficient and much more reliable than using multiple `setInterval` methods, as they usually get unsynchronized, and introduce memory issues.
+
+```javascript
+// Alternative to setInterval
+heart.createEvent(5, function(heartbeat, last){
+  console.log('...Every 5 Beats forever');
+});
+
+heart.createEvent(1, function(heartbeat, last){
+  console.log('...Every Single Beat forever');
+});
+
+heart.createEvent(1, {repeat: 3}, function(heartbeat, last){
+  console.log('...Every Single Beat for 3 beats only');
+  if(last === true){
+    console.log('...the last time.')
+  }
+});
+
+// Alternative to setTimeout
+heart.createEvent(2, {repeat: 1}, function(heartbeat, last){
+  console.log('...Once after 2 Beats');
+});
+```
+
+### Heart Pulses
+A `Pulse` is an object used to measure how synchronized part of your system is to the main Heart. This is super useful as it allows you to very efficiently measure if things are lagging, or working as they should with respect to a heartbeat.
 
 ```javascript
 var pulseA = heart.createPulse();
@@ -66,34 +94,6 @@ setInterval(function(){
   console.log( pulseA.missedBeats ); // 2, 4, 6, 8
   console.log( pulseB.missedBeats ); // 0
 }, 2000);
-```
-
-### Heart Events
-In addition to having Pulses, Hearts can also manage Events, and execute blocks on specific heart beats, either continually (like `setInterval`) or just once (like `setTimeout`).
-
-This is much more efficient and much more reliable than using multiple `setInterval` methods, as they usually get unsynchronized, and introduce memory issues.
-
-```javascript
-// Alternative to setInterval
-heart.createEvent(5, function(heartbeat, last){
-  console.log('...Every 5 Beats forever');
-});
-
-heart.createEvent(1, function(heartbeat, last){
-  console.log('...Every Single Beat forever');
-});
-
-heart.createEvent(1, {repeat: 3}, function(heartbeat, last){
-  console.log('...Every Single Beat for 3 beats only');
-  if(last === true){
-    console.log('...the last time.')
-  }
-});
-
-// Alternative to setTimeout
-heart.createEvent(2, {repeat: 1}, function(heartbeat, last){
-  console.log('...Once after 2 Beats');
-});
 ```
 
 ### Kill That Heart
