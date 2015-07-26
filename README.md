@@ -4,7 +4,7 @@
 
 ![heartbeats title image](https://raw.githubusercontent.com/arjunmehta/node-heartbeats/image/heartbeats.png)
 
-A simple node.js module to very efficiently manage time-based objects and events.
+A simple Node module to very efficiently manage time-based objects and events.
 
 Use this library for comparing large numbers of _relativistic_ time lapses efficiently and for synchronizing the execution of events based on these time lapses. In effect:
 
