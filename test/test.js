@@ -27,7 +27,6 @@ exports.heartAge = function(test) {
     test.expect(1);
 
     var heart = heartbeats.heart('globalBeat');
-    // console.log(heart);
     var iA = setTimeout(function() {
         test.equal(heart.age, 3);
         test.done();
@@ -69,7 +68,6 @@ exports.testPulses = function(test) {
     }, 500);
 };
 
-
 exports.addEvent = function(test) {
     test.expect(3);
 
@@ -89,7 +87,6 @@ exports.addEvent = function(test) {
     setTimeout(function() {}, 7500);
 };
 
-
 exports.removeEvents = function(test) {
     test.expect(1);
 
@@ -98,8 +95,6 @@ exports.removeEvents = function(test) {
     test.equal(heartbeats.heart('globalBeat').events.length, 0);
     test.done();
 };
-
-
 
 exports.addSingleEvent = function(test) {
     test.expect(4);
