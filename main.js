@@ -1,7 +1,7 @@
 var hearts = {};
-var Heart = require("./lib/heart.js").initialize(hearts);
+var Heart = require('./lib/heart.js').initialize(hearts);
 
-function createHeart(heartrate, name) {    
+function createHeart(heartrate, name) {
     var heart = new Heart(heartrate, name);
     if (name) {
         killHeart(name);
@@ -16,7 +16,7 @@ function killHeart(name) {
     }
 }
 
-function heart(name) {
+function getHeart(name) {
     return hearts[name];
 }
 
@@ -27,7 +27,7 @@ module.exports = exports = {
     destroy: killHeart, // will be deprecated
     destroyHeart: killHeart, // will be deprecated
 
-    heart: heart,
+    heart: getHeart,
     hearts: hearts,
     createHeart: createHeart,
     killHeart: killHeart

@@ -15,7 +15,7 @@ suite.on('start', function() {
 });
 
 suite.on('cycle', function(event) {
-    console.log("\n", String(event.target));
+    console.log('\n', String(event.target));
 });
 
 suite.on('complete', function() {
@@ -25,15 +25,15 @@ suite.on('complete', function() {
     var fastestSpeed = fastest[0].stats.mean;
     var slowestSpeed = slowest[0].stats.mean;
 
-    // console.log(fastest.pluck('name')[0], 'is the Fastest at ', fastestSpeed, "per cycle");
-    // console.log(slowest.pluck('name')[0], 'is the Slowest at ', slowestSpeed, "per cycle");
+    // console.log(fastest.pluck('name')[0], 'is the Fastest at ', fastestSpeed, 'per cycle');
+    // console.log(slowest.pluck('name')[0], 'is the Slowest at ', slowestSpeed, 'per cycle');
 
-    // console.log(fastest.pluck('name')[0], 'is', slowestSpeed / fastestSpeed, "times faster than", slowest.pluck('name')[0]);
+    // console.log(fastest.pluck('name')[0], 'is', slowestSpeed / fastestSpeed, 'times faster than', slowest.pluck('name')[0]);
 
 });
 
 suite.on('error', function(e) {
-    console.log("Benchmark ERROR:", e);
+    console.log('Benchmark ERROR:', e);
 });
 
 suite.add({
@@ -45,10 +45,10 @@ suite.add({
         // }
     },
     onStart: function() {
-        heart = heartbeats.createHeart(1000, "heartA");
-        pulse = heart.createPulse("pulseA");
+        heart = heartbeats.createHeart(1000, 'heartA');
+        pulse = heart.createPulse('pulseA');
         cycleCount = 0;
-        console.log("Starting:", this.name);
+        console.log('Starting:', this.name);
     },
     onCycle: function() {
         process.stdout.write('\r Cycle:' + cycleCount++);
@@ -74,7 +74,7 @@ suite.add({
             time: new Date().getTime()
         };
         cycleCount = 0;
-        console.log("Starting:", this.name);
+        console.log('Starting:', this.name);
     },
     onCycle: function() {
         process.stdout.write('\r Cycle:' + cycleCount++);
@@ -93,10 +93,10 @@ suite.add({
         }
     },
     onStart: function() {
-        heart = heartbeats.createHeart(1000, "heartA");
-        pulse = heart.createPulse("pulseA");
+        heart = heartbeats.createHeart(1000, 'heartA');
+        pulse = heart.createPulse('pulseA');
         cycleCount = 0;
-        console.log("Starting:", this.name);
+        console.log('Starting:', this.name);
     },
     onCycle: function() {
         process.stdout.write('\r Cycle:' + cycleCount++);
@@ -121,7 +121,7 @@ suite.add({
             time: new Date().getTime()
         };
         cycleCount = 0;
-        console.log("Starting:", this.name);
+        console.log('Starting:', this.name);
     },
     onCycle: function() {
         process.stdout.write('\r Cycle:' + cycleCount++);
