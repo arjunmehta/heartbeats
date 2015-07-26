@@ -1,7 +1,7 @@
 {
     "name": "heartbeats",
     "version": "3.1.2",
-    "description": "A simple node.js module to very efficiently manage time-based events and objects.",
+    "description": "A simple Node module to very efficiently manage time-based events and objects.",
     "main": "main.js",
     "scripts": {
         "test": "nodeunit test/test.js",
