@@ -8,8 +8,8 @@ A simple Node module to very efficiently manage time-based objects and events.
 
 Use this library for comparing large numbers of _relativistic_ time lapses efficiently and for synchronizing the execution of events based on these time lapses. In effect:
 
-- **Compare the time properties of multiple objects (Pulses) to a global time measure (Heart) operating on a specific time resolution (Heartrate)**
 - **Execute functions on specific Heartbeat intervals**
+- **Compare the time properties of multiple objects (Pulses) to a global time measure (Heart) operating on a specific time resolution (Heartrate)**
 
 This library uses a much more efficient (lower resolution) method of testing system level event times as relativistic time differentials (vs. universal time differentials). Think larger chunked time measures (interval counts) instead of actual milliseconds. It's also great at managing the execution of events that require precise in-system synchronization.
 
@@ -68,22 +68,21 @@ heart.createEvent(2, {repeat: 1}, function(heartbeat, last){
 ```
 
 ### Heart Pulses
-A `Pulse` is an object used to measure how synchronized part of your system is to the main Heart. This is super useful as it allows you to very efficiently measure if things are lagging, or working as they should with respect to a heartbeat.
+A `Pulse` is an object used to measure how synchronized part of your system is to a central `Heart`. This is super useful as it allows you to very efficiently measure if things are lagging, or working as they should with respect to that `heartbeat`.
 
 ```javascript
 var pulseA = heart.createPulse();
 var pulseB = heart.createPulse();
 ```
 
-Instead of storing an event's time as `Date().now()` or `Date().getTime()` and comparing those values to some other time, you `pulse.beat()` to synchronize the Pulse's time with its Heart.
+Now, instead of storing an event's time as `Date().now()` or `Date().getTime()` and comparing those values to some other time, you `pulse.beat()` to synchronize the Pulse's time with its Heart.
 
 ```javascript
 pulseA.beat();
 pulseB.beat();
 ```
 
-### Do Stuff with Pulses
-Now if we want to know how far off an object is from the Heart, we can use the Pulse's `missedBeats` property.
+So, if we want to know how far off an object is from the Heart, we can use the Pulse's `missedBeats` property. For example:
 
 ```javascript
 console.log( pulseA.missedBeats ); // 0
