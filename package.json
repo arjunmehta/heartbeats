@@ -10,7 +10,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git://github.com/arjunmehta/node-heartbeats.git"
+        "url": "git://github.com/arjunmehta/heartbeats.git"
     },
     "devDependencies": {
         "nodeunit": "~0.8.8",
@@ -33,7 +33,7 @@
     "author": "Arjun Mehta",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/arjunmehta/node-heartbeats/issues"
+        "url": "https://github.com/arjunmehta/heartbeats/issues"
     },
-    "homepage": "https://github.com/arjunmehta/node-heartbeats"
+    "homepage": "https://github.com/arjunmehta/heartbeats"
 }
