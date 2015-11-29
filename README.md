@@ -317,33 +317,6 @@ This will instantly kill the event specified by the name.
 heartbeats.heart('heartA').event('checkA').kill();
 ```
 
-
-## For the Browser
-Heartbeats works for the browser too! To compile the script for the browser just make sure browserify is installed on your system:
-```bash
-npm install -g browserify
-```
-
-Then head to this module's directory and run the browser-heartbeats script with npm:
-```bash
-cd node_modules/heartbeats
-npm run browser-heartbeats
-```
-
-Browserify will generate a `heartbeats.js` file for you. Copy this file to your project and include the script in your html.
-
-```html
-<script src="heartbeats.js"/>
-```
-
-Then use heartbeats in accordance with the API.
-
-```javascript
-var heart = heartbeats.createHeart(2000, 'heartA');
-// etc etc
-```
-
-
 ## License
 
 The MIT License (MIT)<br/>
