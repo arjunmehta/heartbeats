@@ -1,4 +1,4 @@
-# node-heartbeats
+# Heartbeats
 
 [![Build Status](https://travis-ci.org/arjunmehta/heartbeats.svg?branch=master)](https://travis-ci.org/arjunmehta/heartbeats)
 
