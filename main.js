@@ -1,5 +1,5 @@
 var hearts = {};
-var Heart = require('./lib/heart.js').initialize(hearts);
+var Heart = require('./lib/heart').initialize(hearts);
 
 function createHeart(heartrate, name) {
     var heart = new Heart(heartrate, name);
