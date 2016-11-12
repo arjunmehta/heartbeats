@@ -20,7 +20,7 @@ function getHeart(name) {
     return hearts[name];
 }
 
-module.exports = exports = {
+module.exports = {
     Heart: Heart, // will be deprecated
     all: hearts, // will be deprecated
     create: createHeart, // will be deprecated
