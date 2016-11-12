@@ -4,7 +4,7 @@
 
 ![heartbeats title image](https://raw.githubusercontent.com/arjunmehta/heartbeats/image/heartbeats.png)
 
-A simple Node module to very efficiently manage time-based objects and events.
+A simple module to very efficiently manage time-based objects and events.
 
 Use this library for comparing large numbers of _relativistic_ time lapses efficiently and for synchronizing the execution of events based on these time lapses. In effect:
 
@@ -258,7 +258,7 @@ var delay = pulse.lag;
 
 ### Beat Events
 
-`node-heartbeats` makes it easy for you to synchronize event execution without the need for multiple `setInterval` or `setTimeout` initializers. It ensures that actions are synchronized with respect to the heart's beat and uses the heartbeat as the measure for action, and won't get unsynchronized as is what happens when multiple `setInterval` or `setTimeout` methods are used.
+`heartbeats` makes it easy for you to synchronize event execution without the need for multiple `setInterval` or `setTimeout` initializers. It ensures that actions are synchronized with respect to the heart's beat and uses the heartbeat as the measure for action, and won't get unsynchronized as is what happens when multiple `setInterval` or `setTimeout` methods are used.
 
 #### heart.createEvent(beatInterval, options, function)
 This method is slightly different from the other creation methods (ie. `createHeart` and `createPulse`). Giving the object a name is done by passing a value to the options object.
