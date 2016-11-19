@@ -1,39 +1,39 @@
 {
-    "name": "heartbeats",
-    "version": "5.0.0",
-    "description": "Very efficiently manage time-based events and objects.",
-    "main": "main.js",
-    "scripts": {
-        "test": "nodeunit test/test.js",
-        "browser-heartbeats": "browserify . -o heartbeats.js -s heartbeats",
-        "benchmark": "node ./test/benchmark.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/arjunmehta/heartbeats.git"
-    },
-    "devDependencies": {
-        "nodeunit": "~0.8.8",
-        "benchmark": "~1.0.0"
-    },
-    "keywords": [
-        "heartbeat",
-        "heartbeats",
-        "setInterval",
-        "setTimeout",
-        "pulse",
-        "timing",
-        "timer",
-        "relativity",
-        "interval",
-        "timeout",
-        "events",
-        "event manager"
-    ],
-    "author": "Arjun Mehta",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/arjunmehta/heartbeats/issues"
-    },
-    "homepage": "https://github.com/arjunmehta/heartbeats"
+  "name": "heartbeats",
+  "version": "5.0.0",
+  "description": "Very efficiently manage time-based events and objects.",
+  "main": "main.js",
+  "scripts": {
+    "test": "nodeunit test/test.js",
+    "browser-heartbeats": "browserify . -o heartbeats.js -s heartbeats",
+    "benchmark": "node ./test/benchmark.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/arjunmehta/heartbeats.git"
+  },
+  "devDependencies": {
+    "nodeunit": "~0.8.8",
+    "benchmark": "~1.0.0"
+  },
+  "keywords": [
+    "heartbeat",
+    "heartbeats",
+    "setInterval",
+    "setTimeout",
+    "pulse",
+    "timing",
+    "timer",
+    "relativity",
+    "interval",
+    "timeout",
+    "events",
+    "event manager"
+  ],
+  "author": "Arjun Mehta",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/arjunmehta/heartbeats/issues"
+  },
+  "homepage": "https://github.com/arjunmehta/heartbeats"
 }
