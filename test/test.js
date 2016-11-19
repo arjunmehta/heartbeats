@@ -74,12 +74,12 @@ exports.addEvent = function(test) {
     var presentInit = heartbeats.heart('globalBeat').heartbeat;
 
     heartbeats.heart('globalBeat').createEvent(3, function(heartbeat) {
-        console.log('onBeat 3', heartbeat - presentInit);
+        console.log('onBeat 3', heartbeat);
         test.equal(true, true);
     });
 
     heartbeats.heart('globalBeat').createEvent(7, function(heartbeat) {
-        console.log('onBeat 7', heartbeat - presentInit);
+        console.log('onBeat 7', heartbeat);
         test.equal(true, true);
         test.done();
     });
@@ -102,33 +102,35 @@ exports.addSingleEvent = function(test) {
     var presentInit = heartbeats.heart('globalBeat').heartbeat;
 
     heartbeats.heart('globalBeat').createEvent(1, {
-        repeat: 1
+        repeat: 5
     }, function(heartbeat) {
-        console.log('onceOnBeat 1', heartbeat - presentInit);
-        test.equal(true, true);
+        console.log('FiveTimesOnBeat 1', heartbeat);
+        if(heartbeat === 5){
+            test.equal(true, true);
+            test.done();
+        }
     });
 
     heartbeats.heart('globalBeat').createEvent(2, {
         repeat: 1,
         name: 'TwoBeat'
     }, function(heartbeat) {
-        console.log('onceOnBeat 2', heartbeat - presentInit);
+        console.log('onceOnBeat 2', heartbeat);
         test.equal(true, true);
     });
 
     heartbeats.heart('globalBeat').createEvent(2, {
         repeat: 1
     }, function(heartbeat) {
-        console.log('onceOnBeat 2', heartbeat - presentInit);
+        console.log('onceOnBeat 2', heartbeat);
         test.equal(true, true);
     });
 
     heartbeats.heart('globalBeat').createEvent(3, {
         repeat: 1
     }, function(heartbeat) {
-        console.log('onceOnBeat 3', heartbeat - presentInit);
-        test.equal(true, true);
-        test.done();
+        console.log('onceOnBeat 3', heartbeat);
+        test.equal(true, true);        
     });
 
     setTimeout(function() {}, 3500);
