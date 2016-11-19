@@ -320,4 +320,4 @@ heartbeats.heart('heartA').event('checkA').kill();
 ## License
 
 The MIT License (MIT)<br/>
-Copyright (c) 2014 Arjun Mehta
+Copyright (c) 2016 Arjun Mehta
