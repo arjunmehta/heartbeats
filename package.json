@@ -1,6 +1,6 @@
 {
   "name": "heartbeats",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Very efficiently manage time-based events and objects.",
   "main": "main.js",
   "scripts": {
