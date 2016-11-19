@@ -46,15 +46,15 @@ This is much more efficient and much more reliable than using multiple `setInter
 
 ```javascript
 // Alternative to setInterval
-heart.createEvent(5, function(heartbeat, last){
+heart.createEvent(5, function(count, last){
   console.log('...Every 5 Beats forever');
 });
 
-heart.createEvent(1, function(heartbeat, last){
+heart.createEvent(1, function(count, last){
   console.log('...Every Single Beat forever');
 });
 
-heart.createEvent(1, {repeat: 3}, function(heartbeat, last){
+heart.createEvent(1, {repeat: 3}, function(count, last){
   console.log('...Every Single Beat for 3 beats only');
   if(last === true){
     console.log('...the last time.')
@@ -62,7 +62,7 @@ heart.createEvent(1, {repeat: 3}, function(heartbeat, last){
 });
 
 // Alternative to setTimeout
-heart.createEvent(2, {repeat: 1}, function(heartbeat, last){
+heart.createEvent(2, {repeat: 1}, function(count, last){
   console.log('...Once after 2 Beats');
 });
 ```
@@ -272,12 +272,12 @@ This method will add a reoccuring event to the heart. Every `nth` beat specified
 `repeat`: default is `0` (infinite). Repeat the event a specified number of times (use `0` for infinite). If set to a finite number, the event will be killed and cleared from memory once executed the last time.
 
 ##### Callback Function
-The callback function is called with `heartbeat` and `last` as arguments.
+The callback function is called with `count` and `last` as arguments.
 
 The following example creates a new event called `checkA`, on an existing heart named `heartA` that executes every 5th beat, repeats forever. The `last` argument passed to the callback will always be `false`.
 
 ```javascript
-var event = heartbeats.heart('heartA').createEvent(5, {name: 'checkA', repeat: 0}, function(heartbeat, last){
+var event = heartbeats.heart('heartA').createEvent(5, {name: 'checkA', repeat: 0}, function(count, last){
   console.log('does this every 5 beats');
 });
 ```
@@ -285,7 +285,7 @@ var event = heartbeats.heart('heartA').createEvent(5, {name: 'checkA', repeat: 0
 The following example creates an anonymous event on the heart named `heartA` that excutes every 4th beats but stops once it has been executed 3 times.
 
 ```javascript
-heartbeats.heart('heartA').createEvent(4, {repeat: 3}, function(heartbeat, last){
+heartbeats.heart('heartA').createEvent(4, {repeat: 3}, function(count, last){
   console.log('does this every 4 beats');
   if(last === true){
     console.log('this is the last execution of this method')
