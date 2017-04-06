@@ -51,7 +51,11 @@ heart.createEvent(5, function(count, last){
 })
 
 heart.createEvent(1, function(count, last) {
-  console.log('...Every Single Beat forever')
+  console.log('...Every Single Beat forever, until conditionIsMet')
+  
+  if (conditionIsMet) {
+    this.kill()
+  }
 })
 
 heart.createEvent(1, {countTo: 3}, function(count, last){
