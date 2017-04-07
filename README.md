@@ -52,7 +52,7 @@ heart.createEvent(5, function(count, last){
 
 heart.createEvent(1, function(count, last) {
   console.log('...Every Single Beat forever, until conditionIsMet')
-  
+
   if (conditionIsMet) {
     this.kill()
   }
@@ -60,6 +60,7 @@ heart.createEvent(1, function(count, last) {
 
 heart.createEvent(1, {countTo: 3}, function(count, last){
   console.log('...Every Single Beat for 3 beats only')
+
   if(last === true){
     console.log('...the last time.')
   }
@@ -92,9 +93,9 @@ So, if we want to know how far off an object is from the Heart, we can use the P
 console.log( pulseA.missedBeats ) // 0
 console.log( pulseB.missedBeats ) // 0
 
-
 setInterval(function(){
   pulseB.beat() // Only synchronizing pulseB with the Heart.
+
   console.log( pulseA.missedBeats ) // 2, 4, 6, 8
   console.log( pulseB.missedBeats ) // 0
 }, 2000)
@@ -291,6 +292,7 @@ The following example creates an anonymous event on the heart named `heartA` tha
 ```javascript
 heartbeats.heart('heartA').createEvent(4, {countTo: 3}, function(count, last){
   console.log('does this every 4 beats')
+
   if(last === true){
     console.log('this is the last execution of this method')
   }
