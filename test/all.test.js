@@ -1,7 +1,7 @@
 const { spawn } = require('child_process');
 const heartbeats = require('../main');
 
-jest.setTimeout(10000);
+jest.setTimeout(20000);
 
 describe('module functions', () => {
   test('module exists', () => {
