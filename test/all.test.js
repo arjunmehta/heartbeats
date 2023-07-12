@@ -20,15 +20,6 @@ describe('module functions', () => {
 });
 
 describe('heart basics', () => {
-  test('unreference heart', (done) => {
-    const unrefTest = spawn('node', ['./test/spawn.js'], { stdio: 'inherit' });
-
-    unrefTest.on('exit', (code) => {
-      expect(code).toBe(0);
-      done();
-    });
-  });
-
   test('create heart', (done) => {
     const heart = heartbeats.createHeart(1000, 'globalBeat');
 
@@ -45,35 +36,6 @@ describe('heart basics', () => {
       done();
     }, 3500);
   });
-});
-
-test('pulses', (done) => {
-  const heart = heartbeats.createHeart(1000, 'globalBeat');
-
-  const pulses = {
-    pulseA: heart.createPulse(),
-    pulseB: heart.createPulse(),
-  };
-
-  const iA = setInterval(() => {
-    pulses.pulseA.beat();
-  }, 500);
-
-  const iB = setInterval(() => {
-    pulses.pulseB.beat();
-  }, 5000);
-
-  setTimeout(() => {
-    clearInterval(iA);
-    clearInterval(iB);
-
-    expect(pulses.pulseA.missedBeats).toBe(0);
-    expect(pulses.pulseB.missedBeats).toBe(3);
-    expect(pulses.pulseA.lag).toBe(0);
-    expect(pulses.pulseB.lag).toBe(3000);
-
-    done();
-  }, 3250);
 });
 
 describe('events', () => {
@@ -129,8 +91,51 @@ describe('events', () => {
   });
 });
 
-test('remove heart', (done) => {
-  heartbeats.killHeart('globalBeat');
-  expect(heartbeats.heart('globalBeat')).toBe(undefined);
-  done();
+describe('teardown and unreferencing', () => {
+  test('remove heart', (done) => {
+    heartbeats.killHeart('globalBeat');
+    expect(heartbeats.heart('globalBeat')).toBe(undefined);
+    done();
+  });
+
+  test('unreference heart', (done) => {
+    const unrefTest = spawn('node', ['./test/spawn.js'], { stdio: 'inherit' });
+
+    unrefTest.on('exit', (code) => {
+      expect(code).toBe(0);
+      done();
+    });
+  });
+});
+
+describe('pulses', () => {
+  test('pulse properties', (done) => {
+    const heart = heartbeats.createHeart(1000, 'pulseChecker');
+
+    const pulses = {
+      pulseA: heart.createPulse(),
+      pulseB: heart.createPulse(),
+    };
+
+    const iA = setInterval(() => {
+      pulses.pulseA.beat();
+    }, 500);
+
+    const iB = setInterval(() => {
+      pulses.pulseB.beat();
+    }, 5000);
+
+    setTimeout(() => {
+      clearInterval(iA);
+      clearInterval(iB);
+
+      expect(pulses.pulseA.missedBeats).toBe(0);
+      expect(pulses.pulseB.missedBeats).toBe(3);
+      expect(pulses.pulseA.lag).toBe(0);
+      expect(pulses.pulseB.lag).toBe(3000);
+
+      heartbeats.killHeart('pulseChecker');
+      done();
+    }, 3250);
+  });
 });
