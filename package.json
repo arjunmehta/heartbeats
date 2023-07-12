@@ -4,7 +4,7 @@
   "description": "Very efficiently manage time-based events and objects.",
   "main": "main.js",
   "scripts": {
-    "test": "nodeunit test/test.js",
+    "test": "jest --silent",
     "browser-heartbeats": "browserify . -o heartbeats.js -s heartbeats",
     "benchmark": "node ./test/benchmark.js"
   },
@@ -13,8 +13,12 @@
     "url": "git://github.com/arjunmehta/heartbeats.git"
   },
   "devDependencies": {
-    "nodeunit": "~0.8.8",
-    "benchmark": "~1.0.0"
+    "benchmark": "~1.0.0",
+    "eslint": "^8.44.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jest": "^27.2.2",
+    "jest": "^29.6.1"
   },
   "keywords": [
     "heartbeat",
