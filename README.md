@@ -1,6 +1,6 @@
 # Heartbeats
 
-[![Build Status](https://travis-ci.org/arjunmehta/heartbeats.svg?branch=master)](https://travis-ci.org/arjunmehta/heartbeats)
+![Build Status](https://github.com/arjunmehta/heartbeats/actions/workflows/test.yml/badge.svg)
 
 ![heartbeats title image](https://raw.githubusercontent.com/arjunmehta/heartbeats/image/heartbeats.png)
 
