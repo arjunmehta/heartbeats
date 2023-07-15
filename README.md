@@ -22,7 +22,7 @@ npm install heartbeats
 
 ### Add to your project
 ```javascript
-var heartbeats = require('heartbeats')
+const heartbeats = require('heartbeats')
 ```
 
 ### Create a New Heart
@@ -30,13 +30,13 @@ A `Heart` is the main object you use to measure time. It has a core heartrate, a
 
 ```javascript
 // a heart that beats every 1 second.
-var heart = heartbeats.createHeart(1000)
+const heart = heartbeats.createHeart(1000)
 ```
 
 The running essence of the `Heart` is its own internal heartbeat count. How many times has it beat? We call this the Heart's age.
 
 ```javascript
-var age = heart.age
+const age = heart.age
 ```
 
 ### Heart Events
@@ -46,28 +46,28 @@ This is much more efficient and much more reliable than using multiple `setInter
 
 ```javascript
 // Alternative to setInterval
-heart.createEvent(5, function(count, last){
+heart.createEvent(5, (count, isLast, event) => {
   console.log('...Every 5 Beats forever')
 })
 
-heart.createEvent(1, function(count, last) {
+heart.createEvent(1, (count, isLast, event) => {
   console.log('...Every Single Beat forever, until conditionIsMet')
 
   if (conditionIsMet) {
-    this.kill()
+    event.kill()
   }
 })
 
-heart.createEvent(1, {countTo: 3}, function(count, last){
+heart.createEvent(1, { countTo: 3 }, (count, isLast, event) => {
   console.log('...Every Single Beat for 3 beats only')
 
-  if(last === true){
+  if (isLast === true) {
     console.log('...the last time.')
   }
 })
 
 // Alternative to setTimeout
-heart.createEvent(2, {countTo: 1}, function(count, last){
+heart.createEvent(2, { countTo: 1 }, (count, isLast, event) => {
   console.log('...Once after 2 Beats')
 })
 ```
@@ -76,8 +76,8 @@ heart.createEvent(2, {countTo: 1}, function(count, last){
 A `Pulse` is an object used to measure how synchronized part of your system is to a central `Heart`. This is super useful as it allows you to very efficiently measure if things are lagging, or working as they should with respect to that `heartbeat`.
 
 ```javascript
-var pulseA = heart.createPulse()
-var pulseB = heart.createPulse()
+const pulseA = heart.createPulse()
+const pulseB = heart.createPulse()
 ```
 
 Now, instead of storing an event's time as `Date().now()` or `Date().getTime()` and comparing those values to some other time, you `pulse.beat()` to synchronize the Pulse's time with its Heart.
@@ -87,18 +87,18 @@ pulseA.beat()
 pulseB.beat()
 ```
 
-So, if we want to know how far off an object is from the Heart, we can use the Pulse's `missedBeats` property. For example:
+o, if we want to know how fconst off an object is from the Heart, we can use the Pulse's `missedBeats` property. For example:
 
 ```javascript
 console.log( pulseA.missedBeats ) // 0
 console.log( pulseB.missedBeats ) // 0
 
-setInterval(function(){
+setInterval(function () {
   pulseB.beat() // Only synchronizing pulseB with the Heart.
 
   console.log( pulseA.missedBeats ) // 2, 4, 6, 8
   console.log( pulseB.missedBeats ) // 0
-}, 2000)
+ }, 2000)
 ```
 
 ### Kill That Heart
@@ -111,7 +111,7 @@ heart.kill()
 
 ## About Efficiency
 
-Why is this library faster than more conventional methods? Basically, instead of using `Date().now()` or `new Date().getTime()` which are relatively very slow operations that give you very precise, universal values for the **present time**, we use the present moment of a heartbeat to give your events a time relative to that particular heart. This simple change results in extremely fast and efficient time difference calculations because it operates at a very low resolution compared to methods using the Date object, and compares basic integers vs comparing dates. View the source to see details.
+Why is this library faster than more conventional methods? Basically, instead of using `Date().now()` or `new Date().getTime()` which are relatively very slow operations that give you very precise, universal values for the **present time**, we use the present moment of a heartbeat to give your events a time relative to that articulconst heart. This simple change results in extremely fast and efficient time difference calculations because it operates at a very low resolution compared to methods using the Date object, and compares basic integers vs comparing dates. View the source to see details.
 
 ### Test Performance
 If you're curious, I've included a performance test using `benchmark.js` which compares a more traditional way of testing times.
@@ -142,13 +142,13 @@ If you provide a name, the heart is registered in the module's list of hearts (s
 
 ```javascript
 // a new heart that beats every 2 seconds named 'heartA'
-var heart = heartbeats.createHeart(2000, 'heartA')
+const heart = heartbeats.createHeart(2000, 'heartA')
 ```
 
 If you don't provide a name, the heart will be returned but will not be added to the `heartbeats.hearts` object.
 
 ```javascript
-var heart = heartbeats.createHeart(2000)
+const heart = heartbeats.createHeart(2000)
 console.log(heart.name) // heart_kajg8i27tjhv
 ```
 
@@ -160,7 +160,7 @@ Returns a `Heart` object with a name from the managed list of hearts.
 
 ```javascript
 // gets a heart named 'heartA'
-var heart = heartbeats.heart('heartA')
+const heart = heartbeats.heart('heartA')
 ```
 
 #### heartbeats.killHeart(name)
@@ -202,13 +202,13 @@ If you provide a name, the Pulse is added to the Heart's internal managed list o
 
 ```javascript
 // creates a new pulse from the 'heartA' heart(beat)
-var pulse = heartbeats.heart('heartA').createPulse('A')
+const pulse = heartbeats.heart('heartA').createPulse('A')
 ```
 
 If you don't provide a name, the pulse will be returned without being added to the Heart's managed list of Pulses.
 
 ```javascript
-var pulseA = heartbeats.heart('heartA').createPulse()
+const pulseA = heartbeats.heart('heartA').createPulse()
 ```
 
 #### heart.pulses
@@ -217,13 +217,13 @@ An object with all pulses belonging to the heart, that have been instantiated wi
 #### heart.pulse(name)
 Returns the Pulse object from the heart's managed list of pulses.
 ```javascript
-var pulseA = heartbeats.heart('heartA').pulse('A')
+const pulseA = heartbeats.heart('heartA').pulse('A')
 ```
 
 #### heart.killPulse(name)
 Kills the Pulse and removes it from the heart's managed list of Pulses.
 ```javascript
-var pulse = heartbeats.heart('heartA').pulse('A')
+const pulse = heartbeats.heart('heartA').pulse('A')
 ```
 
 #### pulse.kill()
@@ -250,14 +250,14 @@ The number of heartbeats that have passed since the pulse was last synchronized 
 
 ```javascript
 // gets the number of beats the pulse is off from its heart
-var beatoffset = pulse.missedBeats
+const beatoffset = pulse.missedBeats
 ```
 
 #### pulse.lag
 Returns an approximate number of milliseconds the pulse is lagging behind the main heartbeat. Basically this is `pulse.missedBeats*heart.heartrate`.
 ```javascript
 // gets an approximate number of milliseconds the pulse is delayed from the heart
-var delay = pulse.lag
+const delay = pulse.lag
 ```
 
 
@@ -282,7 +282,7 @@ The callback function is called with `count` and `last` as arguments.
 The following example creates a new event called `checkA`, on an existing heart named `heartA` that executes every 5th beat, repeats forever. The `last` argument passed to the callback will always be `false`.
 
 ```javascript
-var event = heartbeats.heart('heartA').createEvent(5, {name: 'checkA', countTo: 0}, function(count, last){
+const event = heartbeats.heart('heartA').createEvent(5, { name: 'checkA', countTo: 0 }, (count, isLast, event) => {
   console.log('does this every 5 beats')
 })
 ```
@@ -290,10 +290,10 @@ var event = heartbeats.heart('heartA').createEvent(5, {name: 'checkA', countTo: 
 The following example creates an anonymous event on the heart named `heartA` that excutes every 4th beats but stops once it has been executed 3 times.
 
 ```javascript
-heartbeats.heart('heartA').createEvent(4, {countTo: 3}, function(count, last){
+heartbeats.heart('heartA').createEvent(4, { countTo: 3 }, (count, isLast, event) => {
   console.log('does this every 4 beats')
 
-  if(last === true){
+  if (last === true) {
     console.log('this is the last execution of this method')
   }
 })
@@ -302,7 +302,7 @@ heartbeats.heart('heartA').createEvent(4, {countTo: 3}, function(count, last){
 #### heart.event(name)
 Returns the `Event` with the specified name from the heart.
 ```javascript
-var event = heartbeats.heart('heartA').event('checkA')
+const event = heartbeats.heart('heartA').event('checkA')
 ```
 
 #### heart.killEvent(name)
@@ -312,7 +312,7 @@ heartbeats.heart('heartA').killEvent('checkA')
 ```
 
 #### heart.killAllEvents()
-This will clear all beat events from the heart.
+his will cleconst all beat events from the heart.
 ```javascript
 heartbeats.heart('heartA').killAllEvents()
 ```
